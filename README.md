@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Proyek Deteksi Bolongan
 
-## Getting Started
+## BACA DLUUU!!!
 
-First, run the development server:
+Untuk menjalankan proyek ini, ikuti langkah-langkah berikut:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. Aktifkan lingkungan virtual dengan perintah berikut pada Command Prompt:
+
+   ```
+   py -m venv venv
+   ```
+
+   ```sh
+   venv\Scripts\activate
+   ```
+
+2. Setelah lingkungan virtual aktif, Command Prompt akan berubah menjadi (venv) PS H:(direktori kalian). Pada tahap ini, jalankan perintah berikut untuk menginstal semua dependensi yang diperlukan:
+
+   ```sh
+   pip install -r requirements.txt
+   ```
+
+## Deskripsi Proyek
+
+[Berikan deskripsi singkat tentang proyek Anda di sini]
+
+## Struktur Proyek
+
+[Deskripsikan struktur folder dan file penting dalam proyek Anda]
+
+```
+.
+├── front-end/
+├── api/
+│   ├── app.py
+│   └── ...
+├── requirements.txt
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Cara Penggunaan
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### buat 2 terminal
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+terminal pertama
 
-## Learn More
+```
+cd front-end
+```
 
-To learn more about Next.js, take a look at the following resources:
+```
+npm i
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### terminal kedua
 
-## Deploy on Vercel
+`venv\Scripts\activate`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Catatan
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+[Tambahkan catatan penting, masalah yang diketahui, atau hal lain yang perlu diperhatikan]
+
+---
+
+Good Luck!!
