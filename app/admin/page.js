@@ -1,12 +1,7 @@
-import Form from "@/components/form/form";
 import React from "react";
 
 const AdminPage = () => {
-  return (
-    <div>
-      <Form />
-    </div>
-  );
+  return <div>admin page</div>;
 };
 
 export default AdminPage;
