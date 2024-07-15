@@ -81,8 +81,8 @@ const Form = () => {
                     <span className="block sm:inline">Laporan Anda Berhasil Dikirim. Informasi selanjutnya terkait detail laporan telah dikirim melalui Email Anda.</span>
                 </div>
             )}
-            <div className="flex flex-row justify-evenly px-8 w-full">
-                <div className="w-1/2 pr-8">
+            <div className="flex flex-col md:flex-row justify-evenly px-8 w-full">
+                <div className="md:w-1/2 md:pr-8">
                     <p className="text-justify mb-8">
                         Kami menghargai partisipasi Anda dalam menjaga keamanan dan kenyamanan jalan di Kota Semarang. Jika Anda menemukan jalan berlubang, harap sampaikan laporan Anda melalui formulir di samping ini. Terima kasih atas kepedulian dan kerjasama Anda.
                     </p>
@@ -97,25 +97,25 @@ const Form = () => {
                             onChange={(e) => setReportId(e.target.value)}
                         />
                         <button
-                        className="bg-[#2185D5] rounded px-3 py-2 hover:bg-[#0b69b7] text-white w-full"
-                        onClick={onCheckStatus}
-                    >
-                        Cek Status
-                    </button>
+                            className="bg-[#2185D5] rounded px-3 py-2 hover:bg-[#0b69b7] text-white w-full"
+                            onClick={onCheckStatus}
+                        >
+                            Cek Status
+                        </button>
                     </div>
                     {showProcess && (
-                    <div className="bg-gray-100 p-4 rounded shadow-md">
-                        <h4 className="text-lg font-semibold mb-2">Proses Pengajuan Laporan</h4>
-                        <ul className="list-disc list-inside">
-                            <li className="mb-2">Pemeriksaan: Tim kami akan melakukan layout untuk memeriksa informasi yang Anda berikan.</li>
-                            <li className="mb-2">Survei Lapangan: Tim kami mengunjungi lokasi yang Anda laporkan untuk mengumpulkan data tambahan.</li>
-                            <li className="mb-2">Tindakan Perbaikan: Kami merencanakan dan melaksanakan aksi perbaikan berdasarkan data yang telah kami kumpulkan.</li>
-                            <li>Selesai: Setelah perbaikan selesai, Anda akan menerima notifikasi melalui email.</li>
-                        </ul>
-                    </div>
-                )}
+                        <div className="bg-gray-100 p-4 rounded shadow-md">
+                            <h4 className="text-lg font-semibold mb-2">Proses Pengajuan Laporan</h4>
+                            <ul className="list-disc list-inside">
+                                <li className="mb-2">Pemeriksaan: Tim kami akan melakukan layout untuk memeriksa informasi yang Anda berikan.</li>
+                                <li className="mb-2">Survei Lapangan: Tim kami mengunjungi lokasi yang Anda laporkan untuk mengumpulkan data tambahan.</li>
+                                <li className="mb-2">Tindakan Perbaikan: Kami merencanakan dan melaksanakan aksi perbaikan berdasarkan data yang telah kami kumpulkan.</li>
+                                <li>Selesai: Setelah perbaikan selesai, Anda akan menerima notifikasi melalui email.</li>
+                            </ul>
+                        </div>
+                    )}
                 </div>
-                <div className="w-1/2 bg-white p-8 rounded shadow-md">
+                <div className="md:w-1/2 bg-white p-8 rounded shadow-md">
                     <div>
                         <input
                             className="w-full shadow-lg appearance-none border rounded py-2 px-3 text-gray-700 leading-tight outline outline-2 mb-4"
@@ -157,19 +157,24 @@ const Form = () => {
                 </div>
             </div>
             {imageSrc && (
-                <div>
-                    <h2>Detection Image:</h2>
-                    <img src={imageSrc} alt="Detection result" />
+                <div className="mt-8">
+                    <h2 className="text-xl font-bold mb-2">Detection Image:</h2>
+                    <img src={imageSrc} alt="Detection result" className="max-w-full h-auto" />
                 </div>
             )}
             {detections && (
-                <div>
-                    <h2>Detections:</h2>
-                    <p>Number of potholes detected: {numPotholes}</p>
-                    <button onClick={() => setShowDetails(!showDetails)}>
+                <div className="mt-8">
+                    <h2 className="text-xl font-bold mb-2">Detections:</h2>
+                    <p className="mb-4">Number of potholes detected: {numPotholes}</p>
+                    <button
+                        className="bg-[#2185D5] text-white px-4 py-2 rounded hover:bg-[#0b69b7]"
+                        onClick={() => setShowDetails(!showDetails)}
+                    >
                         {showDetails ? 'Hide Details' : 'Show Details'}
                     </button>
-                    {showDetails && <pre>{JSON.stringify(detections, null, 2)}</pre>}
+                    {showDetails && (
+                        <pre className="mt-4 bg-gray-100 p-4 rounded">{JSON.stringify(detections, null, 2)}</pre>
+                    )}
                 </div>
             )}
         </div>
