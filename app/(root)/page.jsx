@@ -5,12 +5,13 @@ import Tentang from "@/components/Tentang";
 import React from "react";
 
 function Home() {
-  return (<>
-    <LandingPage />
-    <Form />
-    <Tentang />
-    <Statistika />
-  </>
+  return (
+    <>
+      <LandingPage />
+      <Form />
+      <Tentang />
+      <Statistika />
+    </>
   );
 }
 
