@@ -2,7 +2,7 @@ import React from 'react';
 
 const Navbar = () => {
     return (
-        <header className="relative z-10 w-full h-[93.48px] bg-transparent flex items-center justify-between p-5 shadow-md">
+        <header className="relative  z-10 w-full h-[93.48px] bg-transparent flex items-center justify-between p-5">
             <div className="ml-8">
                 <img src='/images/logooo.png' alt="Logo" className="w-[250px] h-[50px]" />
             </div>
