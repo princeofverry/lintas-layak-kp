@@ -2,7 +2,7 @@ import React from 'react';
 
 const Statistika = () => {
     return (
-        <div className="relative h-screen w-screen text-center mx-auto bg-[#F3F3F3] bg-center bg-no-repeat bg-contain" style={{ backgroundImage: `url('/images/peta.png')` }}>
+        <div id='statistics' className="relative h-screen w-100 text-center mx-auto bg-[#F3F3F3] bg-center bg-no-repeat bg-contain" style={{ backgroundImage: "url('/images/peta.png') "}}>
             <div className="relative pt-20">
                 <h2 className="font-poppins text-4xl font-bold leading-12 text-[#2185D5] pt-32">Jejak LintasLayak dalam Angka</h2>
                 <div className="flex justify-around mt-5 p-8">

@@ -71,11 +71,13 @@ const Form = () => {
     };
 
     return (
-        <div className="flex flex-col items-center bg-[#f3f3f3]">
+        <div id="form" className="flex flex-col items-center bg-[#f3f3f3]">
             <h1 className="text-[#2185D5] text-3xl font-bold text-center mt-8">
                 Laporkan Jalan Berlubang di Daerah Anda
             </h1>
-            <div className="border-b-4 border-[#2185D5] w-1/4 mx-auto mt-1 mb-8"></div>
+            <div className='text-center w-100 flex justify-center pt-8 pb-16'>
+                <hr class="border-[#2185D5] w-[150px] border-4"></hr>
+            </div>
             {showSuccessMessage && (
                 <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-4" role="alert">
                     <span className="block sm:inline">Laporan Anda Berhasil Dikirim. Informasi selanjutnya terkait detail laporan telah dikirim melalui Email Anda.</span>
@@ -97,25 +99,64 @@ const Form = () => {
                             onChange={(e) => setReportId(e.target.value)}
                         />
                         <button
-                            className="bg-[#2185D5] rounded px-3 py-2 hover:bg-[#0b69b7] text f3f3f3 w-full"
+                            className="bg-[#2185D5] rounded px-3 py-2 hover:bg-[#0b69b7] text f3f3f3 text-white w-full"
                             onClick={onCheckStatus}
                         >
                             Cek Status
                         </button>
                     </div>
                     {showProcess && (
-                        <div className="bg f3f3f3 rounded shadow-md">
-                            <h4 className="text-lg font-semibold mb-2">Proses Pengajuan Laporan</h4>
-                            <ul className="list-disc list-inside">
-                                <li className="mb-2">Pemeriksaan: Tim kami akan melakukan layout untuk memeriksa informasi yang Anda berikan.</li>
-                                <li className="mb-2">Survei Lapangan: Tim kami mengunjungi lokasi yang Anda laporkan untuk mengumpulkan data tambahan.</li>
-                                <li className="mb-2">Tindakan Perbaikan: Kami merencanakan dan melaksanakan aksi perbaikan berdasarkan data yang telah kami kumpulkan.</li>
-                                <li>Selesai: Setelah perbaikan selesai, Anda akan menerima notifikasi melalui email.</li>
-                            </ul>
+                        <div className="p-3">
+                            <div className="mb-2">
+                                <div className='flex items-center space-x-2'>
+                                    <div className="bg-[#3A4750] rounded-full mr-2 p-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-square-pen"><path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z"/></svg>
+                                    </div>
+                                    <p className='text-[15px]'>
+                                        <span className='text-[#3A4750] font-semibold'>
+                                        Pemeriksaan</span>
+                                        <br/><span className='text-[#3A475099]'>Tim kami akan melakukan layout untuk memeriksa informasi yang Anda berikan.</span>
+                                    </p>
+                                </div>
+                            </div>                            
+                            <div className="mb-2">
+                                <div className='flex items-center space-x-2'>
+                                    <div className="bg-[#3A4750] rounded-full mr-2 p-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map"><path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/><path d="M15 5.764v15"/><path d="M9 3.236v15"/></svg>
+                                    </div>
+                                    <p className='text-[15px]'>
+                                        <span className='text-[#3A4750] font-semibold'>
+                                        Survei Lapangan</span>
+                                        <br/><span className='text-[#3A475099]'>Tim kami mengunjungi lokasi yang Anda laporkan untuk mengumpulkan data tambahan.</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="mb-2">
+                                <div className='flex items-center space-x-2'>
+                                    <div className="bg-[#3A4750] rounded-full mr-2 p-2">
+                                        <img src='/images/tindakan.png' alt="Logo" className="h-6 w-8" />
+                                    </div>
+                                    <p className='text-[15px]'>
+                                    <span className='text-[#3A4750] font-semibold'>Tindakan Perbaikan</span>
+                                    <br/><span className='text-[#3A475099]'>Kami merencanakan dan melaksanakan aksi perbaikan berdasarkan data yang telah kami kumpulkan.</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="mb-2">
+                                <div className='flex items-center space-x-2'>
+                                    <div className="bg-[#3A4750] rounded-full mr-2 p-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+                                    </div>
+                                    <p className='text-[15px]'>
+                                    <span className='text-[#3A4750] font-semibold'>Selesai</span>
+                                    <br/><span className='text-[#3A475099]'>Setelah perbaikan selesai, Anda akan menerima notifikasi melalui email.</span>
+                                    </p>
+                                </div>
+                            </div>        
                         </div>
                     )}
                 </div>
-                <div className="md:w-1/2 bg f3f3f3 p-8 rounded shadow-md">
+                <div className="md:w-1/2 bg f3f3f3 px-20 pt-10 pb-8 rounded shadow-md">
                     <div>
                         <input
                             className="w-full shadow-lg appearance-none border rounded py-2 px-3 text-gray-700 leading-tight outline outline-2 mb-4 bg-[#f3f3f3]"
@@ -148,7 +189,7 @@ const Form = () => {
                         />
                         <Button
                             variant="secondary"
-                            className="bg-[#2185D5] px-16 text-bold hover:bg-[#0b69b7] text f3f3f3 w-full py-2"
+                            className="bg-[#2185D5] px-16 text-bold text-white hover:bg-[#0b69b7] text f3f3f3 w-full py-2"
                             onClick={onFileUpload}
                         >
                             KIRIM
@@ -177,6 +218,9 @@ const Form = () => {
                     )}
                 </div>
             )}
+            <div className='text-center w-100 flex justify-center pt-16'>
+                <hr class="border-[#2185D5] w-[150px] border-4"></hr>
+            </div>
         </div>
     );
 }
