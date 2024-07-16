@@ -1,27 +1,23 @@
 import React from 'react';
-import styles from '@/components/LandingPage.module.css';
 
 const Navbar = () => {
     return (
-        <div className={styles.landingPage}>
-            <header className={styles.header}>
-                <div className={styles.navbar}>
-                    <div className={styles.logo}>
-                        <img src="/logo.png" alt="Lintas Layak" />
-                        {/* <span>Lintas Layak</span> */}
-                    </div>
-                    <nav>
-                        <ul className={styles.navList}>
-                            <li className={styles.navItem}><a href="#Tentang" className={styles.navLink}>Tentang</a></li>
-                            <li className={styles.navItem}><a href="#stats" className={styles.navLink}>Statistika</a></li>
-                        </ul>
-                    </nav>
-                    <div className={styles.login}>
-                        <button className={styles.loginBtn}>Login</button>
-                    </div>
-                </div>
-            </header>
-        </div>
+        <header className="relative z-10 w-full h-[93.48px] bg-transparent flex items-center justify-between p-5 shadow-md">
+            <div className="ml-8">
+                <img src='/images/logooo.png' alt="Logo" className="w-[250px] h-[50px]" />
+            </div>
+            <nav className="flex justify-center items-center ml-12 flex-grow">
+                <ul className="flex items-center list-none m-0 p-0 flex-grow">
+                    <li className="mr-8">
+                        <a href="#about" className="text-[#F3F3F3] font-semibold text-[16px] no-underline">TENTANG</a>
+                    </li>
+                    <li className="mr-8">
+                        <a href="#statistics" className="text-[#F3F3F3] font-semibold text-[16px] no-underline">STATISTIKA</a>
+                    </li>
+                </ul>
+                <button className="bg-[#F3F3F3] text-[#2185D5] border-none rounded-lg shadow-md font-bold text-[20px] text-center leading-[30px] cursor-pointer px-5 py-2 ml-5 w-[150px]">LOGIN</button>
+            </nav>
+        </header>
     );
 };
 

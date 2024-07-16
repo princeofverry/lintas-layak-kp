@@ -1,12 +1,14 @@
-import React from "react";
 import Form from "@/components/form/form";
+import LandingPage from "@/components/LandingPage";
+import Statistika from "@/components/Statistika";
+import React from "react";
 
 function Home() {
-  return (
-    <div>
-      homepage
-      <Form />
-    </div>
+  return (<>
+    <LandingPage />
+    <Form />
+    <Statistika />
+  </>
   );
 }
 
