@@ -22,7 +22,7 @@ const Navbar = () => {
     }, []);
 
     return (
-        <header className={`fixed top-0 z-10 w-full flex items-center justify-between px-8 py-4 transition-all duration-300 ${isScrolled ? 'backdrop-blur-md shadow-lg bg-[#2185D5]' : 'bg-transparent'}`}>
+        <header className={`fixed top-0 z-50 w-full flex items-center justify-between px-8 py-4 transition-all duration-300 ${isScrolled ? 'backdrop-blur-md shadow-lg bg-[#2185D5]' : 'bg-transparent'}`}>
             <div className="flex items-center justify-start gap-4">
                 <img src='/images/logooo.png' alt="Logo" width={200} height={100} />
                 <ul className="flex gap-10 text-white">
