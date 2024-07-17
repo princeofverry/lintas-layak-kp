@@ -85,10 +85,10 @@ const Form = () => {
             )}
             <div className="flex flex-col md:flex-row justify-evenly px-8 w-full">
                 <div className="md:w-1/2 md:pr-8">
-                    <p className="text-justify mb-8">
+                    <p className="text-justify mb-8 text-gray-600">
                         Kami menghargai partisipasi Anda dalam menjaga keamanan dan kenyamanan jalan di Kota Semarang. Jika Anda menemukan jalan berlubang, harap sampaikan laporan Anda melalui formulir di samping ini. Terima kasih atas kepedulian dan kerjasama Anda.
                     </p>
-                    <h3 className="text-xl font-semibold mb-4">Cek Status Pengajuan Laporan Anda</h3>
+                    <h3 className="text-xl font-semibold mb-4 text-gray-700">Cek Status Pengajuan Laporan Anda</h3>
                     <div className="mb-8">
                         <input
                             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4 bg-[#f3f3f3]"
