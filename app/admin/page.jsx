@@ -1,7 +1,9 @@
+'use client'
 import React from "react";
 import { Button } from "@/components/ui/button";
 import ilustrasi from "/public/images/tampilanloginadmin.png";
 import Image from "next/image";
+import Link from 'next/link';
 
 const AdminPage = () => {
   return <div className="bg-[#A6CEEE] w-screen h-screen fixed overflow-clip">
@@ -28,7 +30,9 @@ const AdminPage = () => {
               <input placeholder="Password" type="password" id="password"
                 className="outline outline-[#3A4750] shadow-md bg-transparent w-2/3 rounded-lg py-2 px-3 leading-3 mb-7 " />
               <div className="flex justify-center ">
-                <Button className="bg-[#2185D5] font-bold px-11 hover:bg-[#235985]">LOGIN</Button>
+                <Link href="/admin/dashboard_admin">
+                  <Button className="bg-[#2185D5] font-bold px-11 hover:bg-[#235985]">LOGIN</Button>
+                </Link>
               </div>
             </div>
           </div>
