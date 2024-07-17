@@ -1,7 +1,7 @@
 import Form from "@/components/form/form";
-import LandingPage from "@/components/LandingPage";
-import Statistika from "@/components/Statistika";
-import Tentang from "@/components/Tentang";
+import LandingPage from "@/components/user/LandingPage";
+import Statistika from "@/components/user/Statistika";
+import Tentang from "@/components/user/Tentang";
 import React from "react";
 
 function Home() {
