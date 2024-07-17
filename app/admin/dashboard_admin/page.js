@@ -145,7 +145,7 @@ const DashboardPage = () => {
             alt="Logo Lintas Layak"
             className="-mt-10 size-64 mx-auto"
           />
-          <div className="w-[120px] h-[120px] rounded-full bg-transparent mx-auto -mt-10 border-4 border-white overflow-clip">
+          <div className="w-32 h-32 rounded-full bg-transparent mx-auto -mt-10 border-4 border-white overflow-clip">
             <Image src={foto} alt="Foto Profil" />
           </div>
           <h2 className="text-xl text-[#F3F3F3] font-bold mx-auto mt-10">
@@ -154,7 +154,7 @@ const DashboardPage = () => {
           <h3 className="mx-auto text-base text-[#F3F3F3] font-light">
             adminganteng@gmail.com
           </h3>
-          <div className="flex flex-row mx-auto mt-14 ">
+          <div className="flex flex-row mx-auto mt-10 ">
             <House color="#F3F3F3" size={20} className="mr-3" />
             <h3 className="font-semibold text-[#F3F3F3]">Dashboard</h3>
           </div>
