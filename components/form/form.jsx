@@ -72,11 +72,11 @@ const Form = () => {
 
     return (
         <div id="form" className="flex flex-col items-center bg-[#f3f3f3]">
-            <h1 className="text-[#2185D5] text-3xl font-bold text-center mt-8">
+            <h1 className="text-[#2185D5] text-2xl font-bold text-center mt-12">
                 Laporkan Jalan Berlubang di Daerah Anda
             </h1>
             <div className='text-center w-100 flex justify-center pt-8 pb-16'>
-                <hr class="border-[#2185D5] w-[150px] border-4"></hr>
+                <hr class="border-[#2185D5] w-[150px] border-[2px]"></hr>
             </div>
             {showSuccessMessage && (
                 <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -85,7 +85,7 @@ const Form = () => {
             )}
             <div className="flex flex-col md:flex-row justify-evenly px-8 w-full">
                 <div className="md:w-1/2 md:pr-8">
-                    <p className="text-justify mb-8 text-gray-600">
+                    <p className="text-justify mb-8 text-gray-600 ">
                         Kami menghargai partisipasi Anda dalam menjaga keamanan dan kenyamanan jalan di Kota Semarang. Jika Anda menemukan jalan berlubang, harap sampaikan laporan Anda melalui formulir di samping ini. Terima kasih atas kepedulian dan kerjasama Anda.
                     </p>
                     <h3 className="text-xl font-semibold mb-4 text-gray-700">Cek Status Pengajuan Laporan Anda</h3>
@@ -101,8 +101,7 @@ const Form = () => {
                         <button
                             className="bg-[#2185D5] rounded px-3 py-2 hover:bg-[#0b69b7] text f3f3f3 text-white w-full"
                             onClick={onCheckStatus}
-                        >
-                            Cek Status
+                        > Cek Status
                         </button>
                     </div>
                     {showProcess && (
@@ -219,7 +218,7 @@ const Form = () => {
                 </div>
             )}
             <div className='text-center w-100 flex justify-center pt-16'>
-                <hr class="border-[#2185D5] w-[150px] border-4"></hr>
+                <hr class="border-[#2185D5] w-[150px] border-[2px]"></hr>
             </div>
         </div>
     );
