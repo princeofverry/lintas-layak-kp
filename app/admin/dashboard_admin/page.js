@@ -7,6 +7,7 @@ import { CircleCheck, Download, FolderCheck, House, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import foto from "/public/images/fotoprofil.jpg";
 import Link from "next/link";
+import reports from "@/const/reports";
 
 const DashboardPage = () => {
   const getCurrentDate = () => {
@@ -43,98 +44,7 @@ const DashboardPage = () => {
     return `${dayName}, ${day} ${month} ${year}`;
   };
 
-  const reports = [
-    {
-      id: 1,
-      status: "red",
-      title: "Jalan Rusak Tembalang",
-      email: "anonim1@gmail.com",
-      date: "08/07/2024",
-      time: "15.21",
-      slug: "jalan-rusak-tembalang-1",
-    },
-    {
-      id: 2,
-      status: "yellow",
-      title: "Pohon Tumbang Banyumanik",
-      email: "anonim2@gmail.com",
-      date: "09/07/2024",
-      time: "10.45",
-      slug: "pohon-tumbang-banyumanik-2",
-    },
-    {
-      id: 3,
-      status: "green",
-      title: "Kebakaran di Semarang Timur",
-      email: "anonim3@gmail.com",
-      date: "10/07/2024",
-      time: "08.30",
-      slug: "kebakaran-semarang-timur-3",
-    },
-    {
-      id: 4,
-      status: "red",
-      title: "Banjir di Pedurungan",
-      email: "anonim4@gmail.com",
-      date: "11/07/2024",
-      time: "14.00",
-      slug: "banjir-pedurungan-4",
-    },
-    {
-      id: 5,
-      status: "yellow",
-      title: "Kecelakaan Lalu Lintas di Tugu",
-      email: "anonim5@gmail.com",
-      date: "12/07/2024",
-      time: "18.15",
-      slug: "kecelakaan-tugu-5",
-    },
-    {
-      id: 6,
-      status: "green",
-      title: "Pencurian di Genuk",
-      email: "anonim6@gmail.com",
-      date: "13/07/2024",
-      time: "22.00",
-      slug: "pencurian-genuk-6",
-    },
-    {
-      id: 7,
-      status: "red",
-      title: "Jembatan Ambruk di Gunungpati",
-      email: "anonim7@gmail.com",
-      date: "14/07/2024",
-      time: "11.45",
-      slug: "jembatan-ambruk-gunungpati-7",
-    },
-    {
-      id: 8,
-      status: "yellow",
-      title: "Kemacetan Parah di Simpang Lima",
-      email: "anonim8@gmail.com",
-      date: "15/07/2024",
-      time: "09.00",
-      slug: "kemacetan-simpang-lima-8",
-    },
-    {
-      id: 9,
-      status: "green",
-      title: "Pemadaman Listrik di Gajahmungkur",
-      email: "anonim9@gmail.com",
-      date: "16/07/2024",
-      time: "17.30",
-      slug: "pemadaman-listrik-gajahmungkur-9",
-    },
-    {
-      id: 10,
-      status: "red",
-      title: "Longsor di Candisari",
-      email: "anonim10@gmail.com",
-      date: "17/07/2024",
-      time: "12.00",
-      slug: "longsor-candisari-10",
-    },
-  ];
+  const totalReport = reports.length;
 
   return (
     <div className="flex flex-row fixed bg-[#F3F3F3] h-screen w-screen">
@@ -183,7 +93,9 @@ const DashboardPage = () => {
           <div className="w-72 h-40 bg-[#2185D5] rounded-lg flex flex-row justify-stretch gap-5 px-5 items-center">
             <Download size={90} color="#F3F3F3" />
             <div className="flex flex-col">
-              <h2 className="font-black text-[#F3F3F3] text-3xl">68</h2>
+              <h2 className="font-black text-[#F3F3F3] text-3xl">
+                {totalReport}
+              </h2>
               <h3 className="font-light text-[#F3F3F3] text-lg">
                 Laporan Masuk
               </h3>
