@@ -16,7 +16,7 @@ const LandingPage = () => {
                     <a href="#form"><button className="w-[215px] h-[60px] bg-[#F3F3F3] text-[#2185D5] border-none rounded-lg shadow-md font-bold text-[18px] leading-[25px] text-center cursor-pointer">Laporkan Sekarang!</button></a>
                 </div>
                 <div className='hidden md:block'>
-                    <img src='/images/fix.png' alt="Logo" className="w-full h-screen absolute top-0 z-0" />
+                    <img src='/images/landing page bg.png' alt="Logo" className="w-screen rem h-screen  absolute top-0 z-0" />
                 </div>
             </div>
         </div>

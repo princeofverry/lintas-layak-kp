@@ -8,8 +8,8 @@ const Tentang = () => {
                     <img src='./images/about.jpg' alt="Lintas Layak" className="w-[2000px] h-auto rounded-lg" />
                 </div>
                 <div className="flex-2 flex flex-col">
-                    <h1 className="text-2xl text-[#2185D5] mb-5 leading-[60px] text-start md:px-24"><b>Apa itu LintasLayak?</b></h1>
-                    <p className="text-base text-gray-600 text-justify mb-5 md:px-24">
+                    <h1 className="text-2xl text-[#2185D5] mb-8 px-4 leading-[60px] text-start md:px-24"><b>Apa itu LintasLayak?</b></h1>
+                    <p className="text-base text-gray-600 text-justify mb-5 px-4 md:px-24">
                         <b>LintasLayak</b> adalah sebuah platform yang didedikasikan untuk memfasilitasi pengaduan jalan berlubang di Kota Semarang. Kami memahami betapa pentingnya kondisi jalan yang aman dan nyaman bagi semua pengguna jalan. Oleh karena itu, kami hadir untuk membantu Anda melaporkan masalah jalan berlubang dengan mudah dan cepat.
                     </p>
                     <div className="flex flex-col md:px-24">
@@ -31,7 +31,7 @@ const Tentang = () => {
                 </div>
             </div>
             <div className='text-center w-100 flex justify-center pt-16'>
-                <hr class="border-[#2185D5] w-[150px] border-4"></hr>
+                <hr class="border-[#2185D5] w-[150px] border-[2px]"></hr>
             </div>
         </div>
     );
