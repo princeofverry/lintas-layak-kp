@@ -49,7 +49,7 @@ const Navbar = () => {
       }, []);
 
     return (
-        <header className={`fixed top-0 z-50 w-full flex items-center justify-between px-8 py-4 transition-all duration-300 ${isScrolled ? 'backdrop-blur-md shadow-lg bg-[#2185D5]' : 'bg-transparent'}`}>
+        <header className={`fixed top-0 z-50 right-0  w-full  flex items-center justify-between px-8 py-4 transition-all duration-300 ${isScrolled ? ' bg-[#2185D5]' : 'bg-[#2185D5]'}`}>
             <div className="flex items-center justify-start gap-4">
                 <img src='/images/logooo.png' alt="Logo" width={200} height={100} className='hidden md:block' />
                 <img src='/images/logooo.png' alt="Logo" width={120} className='block md:hidden' />
@@ -61,7 +61,7 @@ const Navbar = () => {
                         <a href="#statistics" className={`font-semibold text-md no-underline hover:text-gray-700`}>STATISTIKA</a>
                     </li>
                 </ul>
-                <button className="flex ml-44" itemID='hamberger'>
+                <button className="absolute right-0 pr-8" itemID='hamberger'>
                     <svg xmlns="http://www.w3.org/2000/svg" className='md:hidden' width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-align-justify"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
                 </button>
                 <div itemID='sidenav' className='bg-[#2185D5] w-max h-full fixed top-0 right-0 z-20 pl-6 pr-10 hidden'>
