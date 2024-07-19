@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
@@ -49,10 +50,10 @@ const Navbar = () => {
       }, []);
 
     return (
-        <header className={`fixed top-0 z-50 right-0  w-full  flex items-center justify-between px-8 py-4 transition-all duration-300 ${isScrolled ? ' bg-[#2185D5]' : 'bg-[#2185D5]'}`}>
+        <header className={`fixed top-0 z-50 right-0  w-full  flex items-center justify-between px-8 py-4 transition-all duration-300 ${isScrolled ? ' bg-[#2185D5]' : 'bg-transparent'}`}>
             <div className="flex items-center justify-start gap-4">
-                <img src='/images/logooo.png' alt="Logo" width={200} height={100} className='hidden md:block' />
-                <img src='/images/logooo.png' alt="Logo" width={120} className='block md:hidden' />
+                <Image src='/images/logooo.png' alt="Logo" width={200} height={100} className='hidden md:block' />
+                <Image src='/images/logooo.png' alt="Logo" width={120} height={100} className='block md:hidden' />
                 <ul className="md:flex gap-10 text-white hidden">
                     <li>
                         <a href="#about" className={`font-semibold text-md no-underline hover:text-gray-700`}>TENTANG</a>
@@ -68,7 +69,7 @@ const Navbar = () => {
                     <div itemID='closeicon' className='flex justify-end pt-6'>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
                     </div>
-                    <img src='/images/logooo.png' alt="Logo" width={165} className='block md:hidden pt-7' />
+                    <Image src='/images/logooo.png' alt="Logo" width={165} height={100} className='block md:hidden pt-7' />
                     <ul className="md:hidden gap-5 text-white flex flex-col pt-9 pl-4 ">
                         <li className='flex justify-start items-center'>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-info"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
