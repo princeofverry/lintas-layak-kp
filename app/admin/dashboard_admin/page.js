@@ -1,6 +1,6 @@
 // pages/dashboard.js
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "/public/images/Black and White Modern Road Construction Logo.png";
 import Image from "next/image";
 import { CircleCheck, Download, FolderCheck, House, Users } from "lucide-react";
@@ -8,8 +8,22 @@ import { Button } from "@/components/ui/button";
 import foto from "/public/images/fotoprofil.jpg";
 import Link from "next/link";
 import reports from "@/const/reports";
+import { useRouter } from 'next/navigation';
 
 const DashboardPage = () => {
+  const [name, setname] = useState('');
+  const [email, setEmail] = useState('');
+  const router = useRouter();
+
+  useEffect(() => {
+    const storedname = localStorage.getItem('name');
+    const storedEmail = localStorage.getItem('email');
+    if (storedname && storedEmail) {
+      setname(storedname);
+      setEmail(storedEmail);
+    }
+  }, []);
+
   const getCurrentDate = () => {
     const days = [
       "Minggu",
@@ -46,6 +60,12 @@ const DashboardPage = () => {
 
   const totalReport = reports.length;
 
+  const handleLogout = () => {
+    localStorage.removeItem('name');
+    localStorage.removeItem('email');
+    router.push('/'); // Redirect to landing page
+  };
+
   return (
     <div className="flex flex-row fixed bg-[#F3F3F3] h-screen w-screen">
       <div className="flex">
@@ -59,17 +79,20 @@ const DashboardPage = () => {
             <Image src={foto} alt="Foto Profil" />
           </div>
           <h2 className="text-xl text-[#F3F3F3] font-bold mx-auto mt-10">
-            Admin Ganteng
+            {name}
           </h2>
           <h3 className="mx-auto text-base text-[#F3F3F3] font-light">
-            adminganteng@gmail.com
+            {email}
           </h3>
           <div className="flex flex-row mx-auto mt-10 ">
             <House color="#F3F3F3" size={20} className="mr-3" />
             <h3 className="font-semibold text-[#F3F3F3]">Dashboard</h3>
           </div>
           <div className="mx-auto">
-            <Button className="bg-[#F3F3F3] text-[#2185D5] shadow-md shadow-slate-700 mt-56 font-bold hover:bg-[#e5eaee]">
+          <Button
+              className="bg-[#F3F3F3] text-[#2185D5] shadow-md shadow-slate-700 mt-56 font-bold hover:bg-[#e5eaee]"
+              onClick={handleLogout}
+            >
               LOGOUT
             </Button>
           </div>
@@ -77,7 +100,7 @@ const DashboardPage = () => {
       </div>
       <div>
         <h1 className="text-[#3A4750] text-2xl font-extrabold  mx-14 mt-12">
-          Hallo, Admin Ganteng
+          Hallo, {name}
         </h1>
         <h2 className="text-[#3A475099] text-base font-medium  mx-14 mt-3 mb-7">
           {getCurrentDate()}
