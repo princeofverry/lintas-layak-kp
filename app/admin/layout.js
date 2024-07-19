@@ -11,7 +11,7 @@ export const metadata = {
 export default function Layout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`inter.className bg-[#f3f3f3]`}>
         <main>{children}</main>
       </body>
     </html>

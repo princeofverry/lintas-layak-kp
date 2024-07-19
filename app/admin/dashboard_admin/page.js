@@ -67,7 +67,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <div className="flex flex-row fixed bg-[#F3F3F3] h-screen w-screen">
+    <div className="flex flex-row bg-[#F3F3F3] h-screen w-screen">
       <div className="flex">
         <div className="flex flex-col bg-[#2185D5] h-screen w-72 rounded-tr-lg rounded-b-lg">
           <Image
@@ -120,7 +120,7 @@ const DashboardPage = () => {
                 {totalReport}
               </h2>
               <h3 className="font-light text-[#F3F3F3] text-lg">
-                Laporan Masuk
+                  Masuk
               </h3>
             </div>
           </div>
@@ -132,7 +132,7 @@ const DashboardPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-row mt-7 items-center gap-[250px]">
+        <div className="flex flex-row mt-7 items-center gap-64 ">
           <h1 className="text-[#3A4750] text-2xl font-extrabold mx-14">
             Laporan Masuk
           </h1>
@@ -167,7 +167,7 @@ const DashboardPage = () => {
             </select>
           </div>
         </div>
-        <div className="mt-5 mx-14 w-[945px] h-[350px] overflow-auto scrollbar-hide rounded-md">
+        <div className="mt-5 mx-14 w-11/12 h-[350px] overflow-auto scrollbar-hide rounded-md">
           <table className="mx-auto w-full table-auto">
             <thead className="sticky top-0">
               <tr className="bg-[#D8DADC] h-10">
