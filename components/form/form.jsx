@@ -1,5 +1,4 @@
-'use client'
-
+"use client";
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Button } from '../ui/button';
@@ -39,7 +38,15 @@ const Form = () => {
         formData.append('address', address);
 
         try {
-            const response = await axios.post('http://127.0.0.1:5000/submit_report', formData);
+            const response = await axios.post(
+                'http://localhost:5000/backend/report/report', 
+                formData, 
+                { 
+                    headers: { 'Content-Type': 'multipart/form-data' },
+                    withCredentials: true // Sertakan cookies
+                }
+            );
+
             const { uniqueCode, detections, num_potholes, image } = response.data;
 
             setShowSuccessMessage(true);
@@ -54,6 +61,12 @@ const Form = () => {
             const blob = new Blob([byteArray], { type: 'image/png' });
             const imageObjectURL = URL.createObjectURL(blob);
             setImageSrc(imageObjectURL);
+
+            // Reload the page after a successful submission
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000); // Adjust the delay as needed
+
         } catch (error) {
             console.error('Error uploading file', error.response ? error.response.data : error.message);
         }
@@ -62,7 +75,8 @@ const Form = () => {
     const onCheckStatus = async () => {
         try {
             const response = await axios.get(
-                `http://127.0.0.1:5000/report_status/${reportId}`
+                'http://localhost:5000/backend/report/report/${reportId}',
+                { withCredentials: true } // Sertakan cookies
             );
             setReportStatus(response.data.status);
         } catch (error) {
@@ -110,76 +124,69 @@ const Form = () => {
                         </button>
                     </div>
                     {showProcess && (
-    <div className="p-3">
-        <div className="relative">
-            {/* Garis Vertikal */}
-            <div className="absolute left-4 top-8 bottom-8 h-[calc(100%-4rem)] w-0.5 bg-gray-300"></div>
+                        <div className="p-3">
+                            <div className="relative">
+                                <div className="absolute left-4 top-8 bottom-8 h-[calc(100%-4rem)] w-0.5 bg-gray-300"></div>
 
-            {/* Item 1 */}
-            <div className="mb-8 flex items-center">
-                <div className="relative z-10 bg-[#3A4750] rounded-full p-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-square-pen">
-                        <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
-                        <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
-                    </svg>
-                </div>
-                <div className="ml-8">
-                    <p className="text-base">
-                        <span className="text-[#3A4750] font-semibold">Pemeriksaan</span>
-                        <br /><span className="text-[#3A475099]">Tim kami akan melakukan layout untuk memeriksa informasi yang Anda berikan.</span>
-                    </p>
-                </div>
-            </div>
+                                <div className="mb-8 flex items-center">
+                                    <div className="relative z-10 bg-[#3A4750] rounded-full p-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-square-pen">
+                                            <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                                            <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
+                                        </svg>
+                                    </div>
+                                    <div className="ml-8">
+                                        <p className="text-base">
+                                            <span className="text-[#3A4750] font-semibold">Pemeriksaan</span>
+                                            <br /><span className="text-[#3A475099]">Tim kami akan melakukan layout untuk memeriksa informasi yang Anda berikan.</span>
+                                        </p>
+                                    </div>
+                                </div>
 
-            {/* Item 2 */}
-            <div className="mb-8 flex items-center">
-                <div className="relative z-10 bg-[#3A4750] rounded-full p-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-map">
-                        <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" />
-                        <path d="M15 5.764v15" />
-                        <path d="M9 3.236v15" />
-                    </svg>
-                </div>
-                <div className="ml-8">
-                    <p className="text-base">
-                        <span className="text-[#3A4750] font-semibold">Survei Lapangan</span>
-                        <br /><span className="text-[#3A475099]">Tim kami mengunjungi lokasi yang Anda laporkan untuk mengumpulkan data tambahan.</span>
-                    </p>
-                </div>
-            </div>
+                                <div className="mb-8 flex items-center">
+                                    <div className="relative z-10 bg-[#3A4750] rounded-full p-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-map">
+                                            <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" />
+                                            <path d="M15 5.764v15" />
+                                            <path d="M9 3.236v15" />
+                                        </svg>
+                                    </div>
+                                    <div className="ml-8">
+                                        <p className="text-base">
+                                            <span className="text-[#3A4750] font-semibold">Survei Lapangan</span>
+                                            <br /><span className="text-[#3A475099]">Tim kami mengunjungi lokasi yang Anda laporkan untuk mengumpulkan data tambahan.</span>
+                                        </p>
+                                    </div>
+                                </div>
 
-            {/* Item 3 */}
-            <div className="mb-8 flex items-center">
-                <div className="relative z-10 bg-[#3A4750] rounded-full p-2">
-                    <Image src='/images/tindakan.png' alt="Logo" height={24} width={32} />
-                </div>
-                <div className="ml-8">
-                    <p className="text-base">
-                        <span className="text-[#3A4750] font-semibold">Tindakan Perbaikan</span>
-                        <br /><span className="text-[#3A475099]">Kami merencanakan dan melaksanakan aksi perbaikan berdasarkan data yang telah kami kumpulkan.</span>
-                    </p>
-                </div>
-            </div>
+                                <div className="mb-8 flex items-center">
+                                    <div className="relative z-10 bg-[#3A4750] rounded-full p-2">
+                                        <Image src='/images/tindakan.png' alt="Logo" height={24} width={32} />
+                                    </div>
+                                    <div className="ml-8">
+                                        <p className="text-base">
+                                            <span className="text-[#3A4750] font-semibold">Tindakan Perbaikan</span>
+                                            <br /><span className="text-[#3A475099]">Kami merencanakan dan melaksanakan aksi perbaikan berdasarkan data yang telah kami kumpulkan.</span>
+                                        </p>
+                                    </div>
+                                </div>
 
-            {/* Item 4 */}
-            <div className="mb-8 flex items-center">
-                <div className="relative z-10 bg-[#3A4750] rounded-full p-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-check">
-                        <path d="M20 6 9 17l-5-5" />
-                    </svg>
-                </div>
-                <div className="ml-8">
-                    <p className="text-base">
-                        <span className="text-[#3A4750] font-semibold">Selesai</span>
-                        <br /><span className="text-[#3A475099]">Setelah perbaikan selesai, Anda akan menerima notifikasi melalui email.</span>
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-)}
-
-
+                                <div className="mb-8 flex items-center">
+                                    <div className="relative z-10 bg-[#3A4750] rounded-full p-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-check">
+                                            <path d="M20 6 9 17l-5-5" />
+                                        </svg>
+                                    </div>
+                                    <div className="ml-8">
+                                        <p className="text-base">
+                                            <span className="text-[#3A4750] font-semibold">Selesai</span>
+                                            <br /><span className="text-[#3A475099]">Setelah perbaikan selesai, Anda akan menerima notifikasi melalui email.</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
                 <div className="md:w-1/2 bg-[#f3f3f3] px-20 pt-10 pb-8 rounded shadow-md">
                     <div>
@@ -210,6 +217,7 @@ const Form = () => {
                             className="w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline outline outline-2 mb-4"
                             id="file"
                             type="file"
+                            accept="image/*"
                             onChange={onFileChange}
                         />
                         <Button
