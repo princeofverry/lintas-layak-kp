@@ -1,10 +1,9 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const session = require('express-session');
 const cors = require('cors');
-const authRoutes = require('./routes/auth');
-const reportRoutes = require('./routes/reports');
 const connectDB = require('./config/index');
+const loginRoutes = require('./login/index');
+const reportRoutes = require('./report/index'); // Update path to point to report/index.js
 require('dotenv').config();
 
 const app = express();
@@ -14,21 +13,22 @@ connectDB();
 
 // Configure CORS
 app.use(cors({
-  origin: 'http://localhost:3000', // Ganti dengan alamat frontend Anda
-  credentials: true
+  origin: 'http://localhost:3000', // Your frontend URL
+  credentials: true // Necessary to send cookies
 }));
 
 app.use(express.json());
 app.use(session({
-  secret: 'secret_key',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // Harus false jika tidak menggunakan HTTPS
+  cookie: { secure: false, httpOnly: true } // Set secure to true if using HTTPS
 }));
 
-app.use('/api/auth', authRoutes);
-app.use('/api/reports', reportRoutes);
+app.use('/backend/login', loginRoutes);
+app.use('/backend/report', reportRoutes);
 
-app.listen(5000, () => {
-  console.log('Server is running on port 5000');
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

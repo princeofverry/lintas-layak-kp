@@ -89,7 +89,7 @@ const DashboardPage = () => {
             <h3 className="font-semibold text-[#F3F3F3]">Dashboard</h3>
           </div>
           <div className="mx-auto">
-          <Button
+            <Button
               className="bg-[#F3F3F3] text-[#2185D5] shadow-md shadow-slate-700 mt-56 font-bold hover:bg-[#e5eaee]"
               onClick={handleLogout}
             >

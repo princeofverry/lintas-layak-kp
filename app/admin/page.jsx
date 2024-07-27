@@ -6,7 +6,7 @@ import Image from "next/image";
 import ilustrasi from "/public/images/tampilanloginadmin.png";
 
 const AdminPage = () => {
-  const [username, setUsername] = useState(''); // Renamed from `name` to `username`
+  const [name, setName] = useState(''); // Changed to `name`
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,12 +16,12 @@ const AdminPage = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:5000/api/auth/login', {
+      const res = await fetch('http://localhost:5000/backend/login/login', { // Corrected endpoint
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password }), // Renamed to `username`
+        body: JSON.stringify({ name, email, password }), // Changed to `name`
       });
 
       const data = await res.json();
@@ -58,12 +58,12 @@ const AdminPage = () => {
               {error && <p className="text-red-500">{error}</p>}
               <form onSubmit={handleSubmit}>
                 <input
-                  placeholder="Username"
+                  placeholder="Name"
                   type="text"
-                  id="username"
+                  id="name"
                   className="outline outline-[#3A4750] shadow-md bg-transparent w-2/3 rounded-lg py-2 px-3 leading-3 mb-5"
-                  value={username} // Updated to `username`
-                  onChange={(e) => setUsername(e.target.value)} // Updated to `username`
+                  value={name} // Changed to `name`
+                  onChange={(e) => setName(e.target.value)} // Changed to `name`
                 />
                 <input
                   placeholder="Email"
