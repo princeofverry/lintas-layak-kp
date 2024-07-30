@@ -206,18 +206,20 @@ const StorePage = ({ params }) => {
           </div>
           <div className="border border-b border-[#3A47501F] w-full outline outline-none my-5"></div>
           <div className="flex flex-row gap-5">
-            <Info size={24} color="#2185D5CC" />
+            <div>
+              <Info size={24} color="#2185D5CC" />
+            </div>
             <div className="flex flex-col gap-y-3">
               <h4 className="text-[#2185D5CC] font-semibold">Detail</h4>
-              <h4 className="text-sm font-semibold text-[#3A4750]">Email</h4>
+              <h5 className="text-base font-medium text-[#3A4750]">Email</h5>
               <p className="text-sm font-normal text-[#3A4750]">{report.email}</p>
-              <h4 className="text-sm font-semibold text-[#3A4750]">No. Laporan</h4>
+              <h5 className="text-base font-medium text-[#3A4750]">No. Laporan</h5>
               <p className="text-sm font-normal text-[#3A4750]">{report.uniqueCode}</p>
-              <h4 className="text-sm font-semibold text-[#3A4750]">Judul Laporan</h4>
+              <h5 className="text-base font-medium text-[#3A4750]">Judul Laporan</h5>
               <p className="text-sm font-normal text-[#3A4750]">{report.title}</p>
-              <h4 className="text-sm font-semibold text-[#3A4750]">Isi Laporan</h4>
+              <h5 className="text-base font-medium text-[#3A4750]">Isi Laporan</h5>
               <p className="text-sm font-normal text-[#3A4750]">{report.content}</p>
-              <h4 className="text-sm font-semibold text-[#3A4750]">Alamat / Deskripsi Lokasi</h4>
+              <h5 className="text-base font-medium text-[#3A4750]">Alamat / Deskripsi Lokasi</h5>
               <p className="text-sm font-normal text-[#3A4750]">{report.address}</p>
 
             </div>
