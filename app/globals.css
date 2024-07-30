@@ -93,3 +93,9 @@ body {
 html {
   scroll-behavior: smooth;
 }
+
+@layer components {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+}
