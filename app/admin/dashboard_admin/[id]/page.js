@@ -107,7 +107,7 @@ const StorePage = ({ params }) => {
       <div className="flex flex-row">
         <div className="flex flex-col mx-12 my-1">
           <h2 className="font-semibold text-lg text-[#2185D5] my-5">
-            No. Laporan : {report.id}
+            No. Laporan : {report.uniqueCode}
           </h2>
           <div className="bg-[#3A47500D] h-56 w-auto rounded-xl flex flex-row">
             <div className="flex flex-col mx-3 my-3 gap-y-2">
@@ -206,19 +206,22 @@ const StorePage = ({ params }) => {
           </div>
           <div className="border border-b border-[#3A47501F] w-full outline outline-none my-5"></div>
           <div className="flex flex-row gap-5">
-            <Info size={24} color="#2185D5CC" />
+            <div>
+              <Info size={24} color="#2185D5CC" />
+            </div>
             <div className="flex flex-col gap-y-3">
-              <h4 className="text-[#2185D5CC] font-semibold">Details</h4>
-              <h4 className="text-sm font-semibold text-[#2185D5CC]">Email</h4>
+              <h4 className="text-[#2185D5CC] font-semibold">Detail</h4>
+              <h5 className="text-base font-medium text-[#3A4750]">Email</h5>
               <p className="text-sm font-normal text-[#3A4750]">{report.email}</p>
-              <h4 className="text-sm font-semibold text-[#2185D5CC]">Title</h4>
-              <p className="text-sm font-normal text-[#3A4750]">{report.title}</p>
-              <h4 className="text-sm font-semibold text-[#2185D5CC]">Content</h4>
-              <p className="text-sm font-normal text-[#3A4750]">{report.content}</p>
-              <h4 className="text-sm font-semibold text-[#2185D5CC]">Address</h4>
-              <p className="text-sm font-normal text-[#3A4750]">{report.address}</p>
-              <h4 className="text-sm font-semibold text-[#2185D5CC]">Unique Code</h4>
+              <h5 className="text-base font-medium text-[#3A4750]">No. Laporan</h5>
               <p className="text-sm font-normal text-[#3A4750]">{report.uniqueCode}</p>
+              <h5 className="text-base font-medium text-[#3A4750]">Judul Laporan</h5>
+              <p className="text-sm font-normal text-[#3A4750]">{report.title}</p>
+              <h5 className="text-base font-medium text-[#3A4750]">Isi Laporan</h5>
+              <p className="text-sm font-normal text-[#3A4750]">{report.content}</p>
+              <h5 className="text-base font-medium text-[#3A4750]">Alamat / Deskripsi Lokasi</h5>
+              <p className="text-sm font-normal text-[#3A4750]">{report.address}</p>
+
             </div>
           </div>
         </div>

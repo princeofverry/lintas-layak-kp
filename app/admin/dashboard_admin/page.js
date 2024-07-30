@@ -92,13 +92,15 @@ const DashboardPage = () => {
 
   const filterReports = () => {
     let filteredReports = [...reports];
-
+  
+    // Filter berdasarkan status
     if (filterStatus) {
       filteredReports = filteredReports.filter(
         (report) => report.status === filterStatus
       );
     }
-
+  
+    // Filter berdasarkan tanggal
     if (filterDate) {
       const now = new Date();
       if (filterDate === "Hari Ini") {
@@ -118,7 +120,8 @@ const DashboardPage = () => {
         );
       }
     }
-
+  
+    // Sortir berdasarkan tanggal
     if (filterSort) {
       filteredReports.sort((a, b) => {
         const dateA = new Date(a.createdAt);
@@ -126,9 +129,10 @@ const DashboardPage = () => {
         return filterSort === "Terbaru" ? dateB - dateA : dateA - dateB;
       });
     }
-
+  
     return filteredReports;
   };
+  
 
   const totalReport = reports.length;
 
