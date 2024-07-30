@@ -7,9 +7,8 @@ const reportController = require('../controllers/reportController');
 const upload = require('../middlewares/upload');
 const path = require('path');
 
-// Middleware untuk melayani file statis
-route.use('/storage', express.static(path.join(__dirname, '../uploads')));
-
+// Serve static files from 'uploads' directory
+route.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Render routes
 route.get('/', services.homeRoutes);
@@ -27,7 +26,6 @@ route.post('/login', loginController.login);
 
 // Report routes
 route.post('/report', upload.single('image'), reportController.handleReport);
-route.use('/storage', express.static(require('path').join(__dirname, '../uploads')));
 route.get('/reports', reportController.getReports);
 route.get('/reports/:id', reportController.getReportById);
 route.put('/reports/:id', reportController.updateReport);

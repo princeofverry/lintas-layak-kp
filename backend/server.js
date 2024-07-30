@@ -6,6 +6,10 @@ const routes = require('./routes/routes');
 require('dotenv').config();
 
 const app = express();
+const path = require('path');
+
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Connect to MongoDB
 connectDB();

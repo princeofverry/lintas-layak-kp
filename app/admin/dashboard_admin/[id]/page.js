@@ -42,6 +42,12 @@ const StorePage = ({ params }) => {
     fetchReport();
   }, [id, router]);
 
+  useEffect(() => {
+    if (report) {
+      console.log('File URL:', report.fileUrl); // Log the file URL for debugging
+    }
+  }, [report]);
+
   const handleUpdate = async () => {
     try {
       const response = await fetch(`http://localhost:5000/api/reports/${id}`, {
@@ -166,7 +172,8 @@ const StorePage = ({ params }) => {
             <h2 className="text-lg font-bold text-[#2185D5] my-3 mx-3">Gambar Pendukung</h2>
             <div className="flex flex-row my-3 mx-3 gap-8">
               <div className="w-96 h-60 rounded-lg overflow-hidden">
-                <img src={`http://localhost:5000/storage/${report.fileUrl}`} className="w-full h-full object-contain" alt="Pendukung" onError={(e) => console.error('Error loading image:', e)} />
+              <img src={`http://localhost:5000/uploads/${report.fileUrl}`} className="w-full h-full object-contain" alt="Pendukung" onError={(e) => console.error('Error loading image:', e)} 
+/>
               </div>
               <div className="flex flex-col gap-2">
                 <h3 className="text-base font-medium text-[#3A4750]">Koordinat Gps</h3>
