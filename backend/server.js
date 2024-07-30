@@ -2,8 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
 const connectDB = require('./config/index');
-const loginRoutes = require('./login/index');
-const reportRoutes = require('./report/index'); // Update path to point to report/index.js
+const routes = require('./routes/routes');
 require('dotenv').config();
 
 const app = express();
@@ -22,13 +21,15 @@ app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false, httpOnly: true } // Set secure to true if using HTTPS
+  cookie: {
+    secure: false, // Set to true in production if using HTTPS
+    maxAge: 24 * 60 * 60 * 1000, // 1 day
+  }
 }));
 
-app.use('/backend/login', loginRoutes);
-app.use('/backend/report', reportRoutes);
+app.use('/api', routes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

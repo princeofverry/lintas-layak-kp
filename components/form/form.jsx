@@ -1,8 +1,10 @@
 "use client";
 import React, { useState } from 'react';
 import axios from 'axios';
+import Image from 'next/image'; // Import Image from next/image
 import { Button } from '../ui/button';
-import Image from 'next/image';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Form = () => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -12,7 +14,6 @@ const Form = () => {
     const [showDetails, setShowDetails] = useState(false);
     const [reportId, setReportId] = useState('');
     const [reportStatus, setReportStatus] = useState(null);
-    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
     const [showProcess, setShowProcess] = useState(false);
 
     const onFileChange = (event) => {
@@ -21,7 +22,7 @@ const Form = () => {
 
     const onFileUpload = async () => {
         if (!selectedFile) {
-            alert('Please select a file first!');
+            toast.error('Please select a file first!');
             return;
         }
 
@@ -39,9 +40,9 @@ const Form = () => {
 
         try {
             const response = await axios.post(
-                'http://localhost:5000/backend/report/report', 
-                formData, 
-                { 
+                'http://localhost:5000/api/report',
+                formData,
+                {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     withCredentials: true // Sertakan cookies
                 }
@@ -49,8 +50,13 @@ const Form = () => {
 
             const { uniqueCode, detections, num_potholes, image } = response.data;
 
-            setShowSuccessMessage(true);
-            alert(`Report submitted successfully. Your unique code is ${uniqueCode}`);
+            // Menampilkan pesan sukses
+            toast.success('Laporan Anda Berhasil Dikirim. Informasi selanjutnya terkait detail laporan telah dikirim melalui Email Anda.');
+
+            // Me-reload halaman setelah 3 detik
+            setTimeout(() => {
+                window.location.reload();
+            }, 3000);
 
             setDetections(detections);
             setNumPotholes(num_potholes);
@@ -62,11 +68,6 @@ const Form = () => {
             const imageObjectURL = URL.createObjectURL(blob);
             setImageSrc(imageObjectURL);
 
-            // Reload the page after a successful submission
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000); // Adjust the delay as needed
-
         } catch (error) {
             console.error('Error uploading file', error.response ? error.response.data : error.message);
         }
@@ -75,7 +76,7 @@ const Form = () => {
     const onCheckStatus = async () => {
         try {
             const response = await axios.get(
-                'http://localhost:5000/backend/report/report/${reportId}',
+                `http://localhost:5000/api/report/${reportId}`,
                 { withCredentials: true } // Sertakan cookies
             );
             setReportStatus(response.data.status);
@@ -91,17 +92,13 @@ const Form = () => {
 
     return (
         <div id="form" className="flex flex-col items-center bg-[#f3f3f3]">
+            <ToastContainer />
             <h1 className="text-[#2185D5] text-2xl font-bold text-center mt-12">
                 Laporkan Jalan Berlubang di Daerah Anda
             </h1>
             <div className='text-center w-100 flex justify-center pt-8 pb-16'>
                 <hr className="border-[#2185D5] w-[150px] border-[2px]" />
             </div>
-            {showSuccessMessage && (
-                <div className="bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <span className="block sm:inline">Laporan Anda Berhasil Dikirim. Informasi selanjutnya terkait detail laporan telah dikirim melalui Email Anda.</span>
-                </div>
-            )}
             <div className="flex flex-col md:flex-row justify-evenly px-8 w-full">
                 <div className="md:w-1/2 md:pr-8">
                     <p className="text-justify mb-8 text-gray-600">
@@ -148,12 +145,12 @@ const Form = () => {
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-map">
                                             <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" />
                                             <path d="M15 5.764v15" />
-                                            <path d="M9 3.236v15" />
+                                            <path d="M9 7.764v13" />
                                         </svg>
                                     </div>
                                     <div className="ml-8">
                                         <p className="text-base">
-                                            <span className="text-[#3A4750] font-semibold">Survei Lapangan</span>
+                                            <span className="text-[#3A4750] font-semibold">Pengumpulan Data</span>
                                             <br /><span className="text-[#3A475099]">Tim kami mengunjungi lokasi yang Anda laporkan untuk mengumpulkan data tambahan.</span>
                                         </p>
                                     </div>
@@ -230,10 +227,10 @@ const Form = () => {
                     </div>
                 </div>
             </div>
-            {imageSrc && (
+  {/*          {imageSrc && (
                 <div className="mt-8">
                     <h2 className="text-xl font-bold mb-2">Detection Image:</h2>
-                    <Image src={imageSrc} alt="Detection result" className="max-w-full h-auto" />
+                    <img src={imageSrc} alt="Detection result" className="max-w-full h-auto" />
                 </div>
             )}
             {detections && (
@@ -250,7 +247,7 @@ const Form = () => {
                         <pre className="mt-4 bg-gray-100 p-4 rounded">{JSON.stringify(detections, null, 2)}</pre>
                     )}
                 </div>
-            )}
+            )}*/}
             <div className='text-center w-100 flex justify-center pt-16'>
                 <hr className="border-[#2185D5] w-[150px] border-[2px]" />
             </div>

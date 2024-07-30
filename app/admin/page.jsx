@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
@@ -6,7 +7,7 @@ import Image from "next/image";
 import ilustrasi from "/public/images/tampilanloginadmin.png";
 
 const AdminPage = () => {
-  const [name, setName] = useState(''); // Changed to `name`
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,12 +17,12 @@ const AdminPage = () => {
     e.preventDefault();
 
     try {
-      const res = await fetch('http://localhost:5000/backend/login/login', { // Corrected endpoint
+      const res = await fetch('http://localhost:5000/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password }), // Changed to `name`
+        body: JSON.stringify({ name, email, password }),
       });
 
       const data = await res.json();
@@ -29,7 +30,6 @@ const AdminPage = () => {
       if (res.status === 200) {
         localStorage.setItem('name', data.user.name);
         localStorage.setItem('email', data.user.email);
-        // Login berhasil, arahkan ke halaman dashboard
         router.push('/admin/dashboard_admin');
       } else {
         setError(data.msg);
@@ -62,8 +62,8 @@ const AdminPage = () => {
                   type="text"
                   id="name"
                   className="outline outline-[#3A4750] shadow-md bg-transparent w-2/3 rounded-lg py-2 px-3 leading-3 mb-5"
-                  value={name} // Changed to `name`
-                  onChange={(e) => setName(e.target.value)} // Changed to `name`
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
                 <input
                   placeholder="Email"
