@@ -14,7 +14,6 @@ const transporter = nodemailer.createTransport({
     },
 });
 
-// Handle new report submission
 const handleReport = async (req, res) => {
     try {
         const { email, title, content, address } = req.body;
@@ -25,8 +24,8 @@ const handleReport = async (req, res) => {
         }
 
         const uniqueCode = generateUniqueCode();
-        const fileName = path.basename(file.path); // Hanya nama file
-        const fileUrl = fileName; // Hanya nama file
+        const fileName = path.basename(file.path);
+        const fileUrl = fileName;
 
         const reportData = {
             email,
@@ -48,9 +47,9 @@ const handleReport = async (req, res) => {
                 <p>Your report has been received. Here are the details:</p>
                 <p><strong>No. Laporan:</strong> ${uniqueCode}</p>
                 <p><strong>Email:</strong> ${email}</p>
-                <p><strong>Judul:</strong> ${title}</p>
-                <p><strong>Deskripsi:</strong> ${content}</p>
-                <p><strong>Lokasi:</strong> ${address}</p>
+                <p><strong>Judul Laporan:</strong> ${title}</p>
+                <p><strong>Isi Laporan:</strong> ${content}</p>
+                <p><strong>Alamat / Deskripsi Lokasi:</strong> ${address}</p>
                 <p><strong>Lampiran:</strong></p>
                 <img src="cid:reportImage" alt="Report Image" />
                 <p>Thank you for your submission.</p>
@@ -70,7 +69,7 @@ const handleReport = async (req, res) => {
             uniqueCode,
             detections: [],
             num_potholes: 0,
-            image: fileUrl, // Kirim URL gambar
+            image: fileUrl,
         });
     } catch (error) {
         console.error('Error handling report:', error);
@@ -78,7 +77,6 @@ const handleReport = async (req, res) => {
     }
 };
 
-// Handle updating a report
 const updateReport = async (req, res) => {
     try {
         const { id } = req.params;
@@ -94,14 +92,11 @@ const updateReport = async (req, res) => {
             estimate
         } = req.body;
 
-        // Validasi ID dan field yang diperlukan
         if (!id) {
             return res.status(400).json({ message: 'ID is required' });
         }
 
         const updateFields = { title, content, address, status, stage, priority, action, responsible, estimate };
-        
-        // Hapus field yang undefined agar tidak mengganggu pembaruan
         Object.keys(updateFields).forEach(key => updateFields[key] === undefined && delete updateFields[key]);
 
         const report = await Report.findByIdAndUpdate(id, updateFields, { new: true });
@@ -116,42 +111,59 @@ const updateReport = async (req, res) => {
     }
 };
 
-// Get all reports
+const getReportByUniqueCode = async (req, res) => {
+    try {
+        const { uniqueCode } = req.params;
+        const report = await Report.findOne({ uniqueCode });
+        if (!report) {
+            return res.status(404).json({ message: "Report not found" });
+        }
+        res.json(report);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 const getReports = async (req, res) => {
     try {
         const reports = await Report.find();
         res.status(200).json(reports);
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ message: error.message });
     }
 };
 
-// Get report by ID
 const getReportById = async (req, res) => {
     try {
         const { id } = req.params;
         const report = await Report.findById(id);
         if (!report) {
-            return res.status(404).json({ message: 'Report not found' });
+            return res.status(404).json({ message: "Report not found" });
         }
-        res.status(200).json(report);
+        res.json(report);
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ message: error.message });
     }
 };
 
-// Get report by title and email
 const getReportByTitleAndEmail = async (req, res) => {
     try {
         const { title, email } = req.query;
-        const report = await Report.findOne({ title, email });
-        if (!report) {
-            return res.status(404).json({ message: 'Report not found' });
-        }
-        res.status(200).json(report);
+        const reports = await Report.find({
+            title: { $regex: title, $options: 'i' },
+            email: { $regex: email, $options: 'i' },
+        });
+        res.json(reports);
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ message: error.message });
     }
 };
 
-module.exports = { handleReport, updateReport, getReports, getReportById, getReportByTitleAndEmail };
+module.exports = {
+    handleReport,
+    updateReport,
+    getReportByUniqueCode,
+    getReports,
+    getReportById,
+    getReportByTitleAndEmail,
+};

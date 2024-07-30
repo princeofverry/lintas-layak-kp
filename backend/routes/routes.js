@@ -1,6 +1,5 @@
 const express = require('express');
 const route = express.Router();
-
 const services = require('../services/render');
 const loginController = require('../controllers/loginController');
 const reportController = require('../controllers/reportController');
@@ -30,5 +29,6 @@ route.get('/reports', reportController.getReports);
 route.get('/reports/:id', reportController.getReportById);
 route.put('/reports/:id', reportController.updateReport);
 route.get('/reports/search', reportController.getReportByTitleAndEmail);
+route.get('/report/uniqueCode/:uniqueCode', reportController.getReportByUniqueCode);
 
 module.exports = route;
