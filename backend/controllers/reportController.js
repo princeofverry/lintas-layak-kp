@@ -26,7 +26,7 @@ const handleReport = async (req, res) => {
 
         const uniqueCode = generateUniqueCode();
         const fileName = path.basename(file.path); // Hanya nama file
-        const fileUrl = `http://localhost:5000/storage/${fileName}`;
+        const fileUrl = fileName; // Hanya nama file
 
         const reportData = {
             email,

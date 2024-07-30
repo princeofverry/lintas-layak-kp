@@ -39,18 +39,37 @@ const Form = () => {
         formData.append('address', address);
 
         try {
-            const response = await axios.post(
+            // Mengirim ke endpoint /detect
+            const detectResponse = await axios.post('http://127.0.0.1:5000/detect', formData);
+            const { detections, num_potholes, image } = detectResponse.data;
+            setDetections(detections);
+            setNumPotholes(num_potholes);
+
+            // Convert the hex string back to a blob
+            const byteArray = new Uint8Array(image.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+            const blob = new Blob([byteArray], { type: 'image/png' });
+            const imageObjectURL = URL.createObjectURL(blob);
+            setImageSrc(imageObjectURL);
+
+            // Prepare the form data for report
+            const reportFormData = new FormData();
+            reportFormData.append('image', blob, 'detection_image.png'); // Menambahkan gambar yang sudah diproses
+            reportFormData.append('email', email);
+            reportFormData.append('title', title);
+            reportFormData.append('content', content);
+            reportFormData.append('address', address);
+
+            // Mengirim ke endpoint /api/report
+            const reportResponse = await axios.post(
                 'http://localhost:5000/api/report',
-                formData,
+                reportFormData,
                 {
                     headers: { 'Content-Type': 'multipart/form-data' },
                     withCredentials: true // Sertakan cookies
                 }
             );
 
-            const { uniqueCode, detections, num_potholes, image } = response.data;
-
-            // Menampilkan pesan sukses
+            const { uniqueCode } = reportResponse.data;
             toast.success('Laporan Anda Berhasil Dikirim. Informasi selanjutnya terkait detail laporan telah dikirim melalui Email Anda.');
 
             // Me-reload halaman setelah 3 detik
@@ -58,20 +77,42 @@ const Form = () => {
                 window.location.reload();
             }, 3000);
 
-            setDetections(detections);
-            setNumPotholes(num_potholes);
-
-            const byteArray = new Uint8Array(
-                image.match(/.{1,2}/g).map((byte) => parseInt(byte, 16))
-            );
-            const blob = new Blob([byteArray], { type: 'image/png' });
-            const imageObjectURL = URL.createObjectURL(blob);
-            setImageSrc(imageObjectURL);
-
         } catch (error) {
-            console.error('Error uploading file', error.response ? error.response.data : error.message);
+            console.error("Error uploading the file", error.response ? error.response.data : error.message);
+
+            // Jika endpoint /detect gagal, kirim gambar mentah
+            try {
+                const rawReportFormData = new FormData();
+                rawReportFormData.append('image', selectedFile); // Menggunakan gambar yang dipilih sebelumnya
+                rawReportFormData.append('email', email);
+                rawReportFormData.append('title', title);
+                rawReportFormData.append('content', content);
+                rawReportFormData.append('address', address);
+
+                const rawReportResponse = await axios.post(
+                    'http://localhost:5000/api/report',
+                    rawReportFormData,
+                    {
+                        headers: { 'Content-Type': 'multipart/form-data' },
+                        withCredentials: true // Sertakan cookies
+                    }
+                );
+
+                const { uniqueCode } = rawReportResponse.data;
+                toast.success('Laporan Anda Berhasil Dikirim. Informasi selanjutnya terkait detail laporan telah dikirim melalui Email Anda.');
+
+                // Me-reload halaman setelah 3 detik
+                setTimeout(() => {
+                    window.location.reload();
+                }, 3000);
+
+            } catch (reportError) {
+                console.error("Error sending raw image", reportError.response ? reportError.response.data : reportError.message);
+                toast.error("Error sending the file. Please try again.");
+            }
         }
     };
+
 
     const onCheckStatus = async () => {
         try {
@@ -227,13 +268,13 @@ const Form = () => {
                     </div>
                 </div>
             </div>
-  {/*          {imageSrc && (
+            {imageSrc && (
                 <div className="mt-8">
                     <h2 className="text-xl font-bold mb-2">Detection Image:</h2>
                     <img src={imageSrc} alt="Detection result" className="max-w-full h-auto" />
                 </div>
             )}
-            {detections && (
+            {/* {detections && (
                 <div className="mt-8">
                     <h2 className="text-xl font-bold mb-2">Detections:</h2>
                     <p className="mb-4">Number of potholes detected: {numPotholes}</p>
@@ -247,7 +288,7 @@ const Form = () => {
                         <pre className="mt-4 bg-gray-100 p-4 rounded">{JSON.stringify(detections, null, 2)}</pre>
                     )}
                 </div>
-            )}*/}
+            )} */}
             <div className='text-center w-100 flex justify-center pt-16'>
                 <hr className="border-[#2185D5] w-[150px] border-[2px]" />
             </div>
