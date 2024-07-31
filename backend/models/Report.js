@@ -15,6 +15,7 @@ const reportSchema = new mongoose.Schema({
   responsible: { type: String, default: "" },
   estimate: { type: String, default: "" },
   createdAt: { type: Date, default: Date.now },
+  num_potholes: { type: String, default: "" },
 }, { collection: "ImageDetails" });
 
 const Report = mongoose.model('Report', reportSchema);
