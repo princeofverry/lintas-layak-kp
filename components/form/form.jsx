@@ -121,7 +121,7 @@ const Form = () => {
             toast.error('Harap masukkan nomor laporan Anda!!');
             return;
         }
-    
+
         try {
             const response = await axios.get(
                 `http://localhost:5000/api/report/uniqueCode/${uniqueCode}`,
@@ -135,20 +135,20 @@ const Form = () => {
             );
             toast.error('Error while checking report status!');
         }
-    
+
         setShowProcess(true);
     };
 
     const getStatusClass = (step) => {
         if (report === null) {
-            return 'bg-[#3A4750]'; 
+            return 'bg-[#3A4750]';
         }
-        
+
         const stages = ['Pemeriksaan', 'Survei Lapangan', 'Tindakan Perbaikan', 'Selesai'];
         if (stages.indexOf(step) <= stages.indexOf(report.stage)) {
-            return 'bg-[#2185D5]'; 
+            return 'bg-[#2185D5]';
         }
-        
+
         return 'bg-gray-300';
     };
 
@@ -188,8 +188,8 @@ const Form = () => {
                                 <div className="absolute left-4 top-8 bottom-8 h-[calc(100%-4rem)] w-0.5 bg-gray-300"></div>
 
                                 <div className="mb-8 flex items-center">
-                                <div className={`relative z-10 ${getStatusClass('Pemeriksaan')} rounded-full p-2`}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-square-pen">
+                                    <div className={`relative z-10 ${getStatusClass('Pemeriksaan')} rounded-full p-2`}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-square-pen">
                                             <path d="M12 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
                                             <path d="M18.375 2.625a1 1 0 0 1 3 3l-9.013 9.014a2 2 0 0 1-.853.505l-2.873.84a.5.5 0 0 1-.62-.62l.84-2.873a2 2 0 0 1 .506-.852z" />
                                         </svg>
@@ -203,8 +203,8 @@ const Form = () => {
                                 </div>
 
                                 <div className="mb-8 flex items-center">
-                                <div className={`relative z-10 ${getStatusClass('Survei Lapangan')} rounded-full p-2`}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-map">
+                                    <div className={`relative z-10 ${getStatusClass('Survei Lapangan')} rounded-full p-2`}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-map">
                                             <path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z" />
                                             <path d="M15 5.764v15" />
                                             <path d="M9 7.764v13" />
@@ -219,8 +219,8 @@ const Form = () => {
                                 </div>
 
                                 <div className="mb-8 flex items-center">
-                                <div className={`relative z-10 ${getStatusClass('Tindakan Perbaikan')} rounded-full p-2`}>
-                                <Image src='/images/tindakan.png' alt="Logo" height={24} width={32} />
+                                    <div className={`relative z-10 ${getStatusClass('Tindakan Perbaikan')} rounded-full p-2`}>
+                                        <Image src='/images/tindakan.png' alt="Logo" height={20} width={25} />
                                     </div>
                                     <div className="ml-8">
                                         <p className="text-base">
@@ -231,8 +231,8 @@ const Form = () => {
                                 </div>
 
                                 <div className="mb-8 flex items-center">
-                                <div className={`relative z-10 ${getStatusClass('Selesai')} rounded-full p-2`}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-check">
+                                    <div className={`relative z-10 ${getStatusClass('Selesai')} rounded-full p-2`}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#F3F3F3" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-check">
                                             <path d="M20 6 9 17l-5-5" />
                                         </svg>
                                     </div>

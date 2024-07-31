@@ -92,14 +92,14 @@ const DashboardPage = () => {
 
   const filterReports = () => {
     let filteredReports = [...reports];
-  
+
     // Filter berdasarkan status
     if (filterStatus) {
       filteredReports = filteredReports.filter(
         (report) => report.status === filterStatus
       );
     }
-  
+
     // Filter berdasarkan tanggal
     if (filterDate) {
       const now = new Date();
@@ -120,7 +120,7 @@ const DashboardPage = () => {
         );
       }
     }
-  
+
     // Sortir berdasarkan tanggal
     if (filterSort) {
       filteredReports.sort((a, b) => {
@@ -129,10 +129,9 @@ const DashboardPage = () => {
         return filterSort === "Terbaru" ? dateB - dateA : dateA - dateB;
       });
     }
-  
+
     return filteredReports;
   };
-  
 
   const totalReport = reports.length;
 
@@ -289,7 +288,7 @@ const DashboardPage = () => {
                           ? "bg-[#3A475080]"
                           : report.status === "Ditolak"
                           ? "bg-[#DF2E38] "
-                          : "bg-transparent text-transparent"
+                          : "bg-transparent text-opacity-0"
                       }`}
                     >
                       {report.status || "Tidak Ada Status"}
