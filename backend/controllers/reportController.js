@@ -89,14 +89,15 @@ const updateReport = async (req, res) => {
             priority,
             action,
             responsible,
-            estimate
+            estimate,
+            num_potholes
         } = req.body;
 
         if (!id) {
             return res.status(400).json({ message: 'ID is required' });
         }
 
-        const updateFields = { title, content, address, status, stage, priority, action, responsible, estimate };
+        const updateFields = { title, content, address, status, stage, priority, action, responsible, estimate,num_potholes };
         Object.keys(updateFields).forEach(key => updateFields[key] === undefined && delete updateFields[key]);
 
         const report = await Report.findByIdAndUpdate(id, updateFields, { new: true });

@@ -16,7 +16,9 @@ const StorePage = ({ params }) => {
   const [action, setAction] = useState('');
   const [responsible, setResponsible] = useState('');
   const [estimate, setEstimate] = useState('');
+  const [numPotholes, setNumPotholes] = useState('');
   const router = useRouter();
+  
 
   useEffect(() => {
     const fetchReport = async () => {
@@ -31,6 +33,7 @@ const StorePage = ({ params }) => {
         setAction(data.action || '');
         setResponsible(data.responsible || '');
         setEstimate(data.estimate || '');
+        setNumPotholes(data.num_potholes ? String(data.num_potholes) : '');
       } catch (error) {
         console.error("Error fetching report:", error);
         router.push("/404");
@@ -62,9 +65,10 @@ const StorePage = ({ params }) => {
           action,
           responsible,
           estimate,
+          num_potholes: numPotholes,
         }),
       });
-
+  
       if (response.ok) {
         alert('Update successful');
         router.push(`/admin/dashboard_admin`);
@@ -77,7 +81,7 @@ const StorePage = ({ params }) => {
       alert('Update failed');
     }
   };
-
+  
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -180,7 +184,12 @@ const StorePage = ({ params }) => {
                 <p className="text-sm font-normal text-[#3A4750]">Latitude : {report.latitude}</p>
                 <p className="text-sm font-normal text-[#3A4750]">Longitude : {report.longitude}</p>
                 <h3 className="text-base font-medium text-[#3A4750]">Jumlah Lubang</h3>
-                <p className="text-sm font-normal text-[#3A4750]">{report.holes}</p>
+                <input
+                  type="text"
+                  className="bg-transparent w-[420px] h-7 border-b border-[#3A475099] outline-none text-sm font-normal text-[#3A4750]"
+                  value={numPotholes}
+                  onChange={(e) => setNumPotholes(e.target.value)}
+                />
                 <h3 className="text-base font-medium text-[#3A4750]">Catatan Khusus</h3>
                 <p className="text-sm font-normal text-[#3A4750]">{report.notes}</p>
               </div>
