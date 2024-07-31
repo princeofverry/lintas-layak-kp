@@ -5,6 +5,7 @@ import Image from 'next/image'; // Import Image from next/image
 import { Button } from '../ui/button';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import FormWithMap from './maps';
 
 const Form = () => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -17,6 +18,17 @@ const Form = () => {
     const [showProcess, setShowProcess] = useState(false);
     const [uniqueCode, setUniqueCode] = useState('');
     const [report, setReport] = useState(null);
+    const [locationData, setLocationData] = useState({
+        lat: null,
+        lng: null,
+        address: '',
+        kelurahan: '',
+        kecamatan: ''
+    });
+
+    const handleLocationChange = (data) => {
+        setLocationData(data);
+    };
 
     const onFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
@@ -39,6 +51,11 @@ const Form = () => {
         formData.append('title', title);
         formData.append('content', content);
         formData.append('address', address);
+        formData.append('kelurahan', locationData.kelurahan);  // Tambahkan kelurahan
+        formData.append('kecamatan', locationData.kecamatan);  // Tambahkan kecamatan
+        formData.append('latitude', locationData.lat);         // Tambahkan latitude
+        formData.append('longitude', locationData.lng);        // Tambahkan longitude
+
 
         try {
             // Mengirim ke endpoint /detect
@@ -272,6 +289,7 @@ const Form = () => {
                             type="text"
                             placeholder="Alamat / Deskripsi Lokasi"
                         />
+                        <FormWithMap onLocationChange={handleLocationChange} />
                         <input
                             className="w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline outline outline-2 mb-4"
                             id="file"
