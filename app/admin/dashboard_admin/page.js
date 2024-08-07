@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import foto from "/public/images/fotoprofil.jpg";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Graph from "@/components/graph/graph";
 
 const DashboardPage = () => {
   const [name, setName] = useState("");
@@ -136,9 +137,9 @@ const DashboardPage = () => {
   const totalReport = reports.length;
 
   return (
-    <div className="flex flex-row fixed w-screen bg-[#F3F3F3] h-screen">
+    <div className="flex flex-row w-screen bg-[#F3F3F3] h-screen">
       <div className="flex w-screen">
-        <div className="flex flex-col bg-[#2185D5] h-screen w-80 rounded-tr-lg rounded-b-lg">
+        <div className="flex flex-col bg-[#2185D5] h-screen w-80 fixed">
           <Image
             src={logo}
             alt="Logo Lintas Layak"
@@ -167,7 +168,7 @@ const DashboardPage = () => {
           </div>
         </div>
       </div>
-      <div className="flex-1 mx-36">
+      <div className="flex-1 mx-24">
         <div className="flex flex-row items-center justify-between">
           <div>
             <h1 className="text-[#3A4750] text-2xl font-extrabold mt-12">
@@ -212,7 +213,23 @@ const DashboardPage = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-row mt-7 justify-between items-center">
+        <div className="flex flex-row mt-10 justify-between items-center">
+          <h1 className="text-[#3A4750] text-2xl font-extrabold ml-4">
+            Statistika Laporan
+          </h1>
+          <select 
+            className="rounded-sm outline outline-[#3A475099] bg-transparent w-28 text-sm font-light text-[#3A475099] px-1"
+          >
+            <option value="" disabled hidden>
+              Urutkan
+            </option>
+            <option value="Semua">Semua</option>
+            <option value="Tertinggi">Tertinggi</option>
+            <option value="Terendah">Terendah</option>  
+          </select>
+        </div>
+        <Graph/>
+        <div className="flex flex-row mt-10 justify-between items-center">
           <h1 className="text-[#3A4750] text-2xl font-extrabold ml-4">
             Laporan Masuk
           </h1>
@@ -259,7 +276,7 @@ const DashboardPage = () => {
             </select>
           </div>
         </div>
-        <div className="mt-5  max-w-6xl h-[300px] overflow-auto rounded-md no-scrollbar">
+        <div className="mt-5  max-w-6xl h-96 overflow-auto rounded-md no-scrollbar">
           <table className="w-full table-auto">
             <thead className="bg-[#D8DADC] text-[#3A475099] h-10">
               <tr className="text-center">
@@ -318,6 +335,7 @@ const DashboardPage = () => {
             </tbody>
           </table>
         </div>
+        <br></br>
       </div>
     </div>
   );
