@@ -1,54 +1,76 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import {
-    Chart as ChartJS,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip
-  } from 'chart.js';
-  import { Bar } from "react-chartjs-2";
-  
-  ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip
-  );
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Bar } from 'react-chartjs-2';
+import 'chart.js/auto';
 
-const graph = () => {
+const Graph = ({ sortOption }) => {
+    const [reportCounts, setReportCounts] = useState([]);
+    const [error, setError] = useState(null);
 
-    const[chartData, setChartData] = useState({
-        datasets: [],
-      });
-    
-      const [chartOptions, setChartOptions] = useState({});
-    
-      useEffect(() =>{
-        setChartData({
-          labels: ['Banyumanik', 'Candisari', 'Gajahmungkur', 'Gayamsari', 'Genuk', 
-                    'Gunungpati', 'Mijen', 'Ngaliyan', 'Pedurungan', 'Semarang Barat', 'Semarang Selatan', 
-                    'Semarang Tengah', 'Semarang Timur', 'Semarang Utara', 'Tembalang', 'Tugu'],
-          datasets: [
+    const fetchReportCounts = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/api/report/count-by-kecamatan');
+            setReportCounts(response.data);
+        } catch (error) {
+            setError(error);
+            console.error('Error fetching report counts:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchReportCounts();
+    }, []);
+
+    // Urutan yang diinginkan
+    const orderedKecamatan = [
+        'Banyumanik', 'Candisari', 'Gajah Mungkur', 'Gayamsari', 'Genuk',
+        'Gunung Pati', 'Mijen', 'Ngaliyan', 'Pedurungan', 'Semarang Barat',
+        'Semarang Selatan', 'Semarang Tengah', 'Semarang Timur', 'Semarang Utara',
+        'Tembalang', 'Tugu'
+    ];
+
+    // Mengurutkan reportCounts sesuai urutan yang diinginkan
+    const sortedReportCounts = orderedKecamatan.map(kecamatan => {
+        const report = reportCounts.find(item => item.kecamatan === kecamatan);
+        return {
+            kecamatan,
+            count: report ? report.count : 0
+        };
+    });
+
+    // Fungsi untuk mengurutkan data berdasarkan sortOption
+    const sortData = (data) => {
+        switch (sortOption) {
+            case 'Tertinggi':
+                return [...data].sort((a, b) => b.count - a.count);
+            case 'Terendah':
+                return [...data].sort((a, b) => a.count - b.count);
+            default:
+                return data;
+        }
+    };
+
+    const data = {
+        labels: sortData(sortedReportCounts).map(item => item.kecamatan),
+        datasets: [
             {
-              label: 'Kecamatan',
-              data: [3, 7, 14, 1, 8, 12, 5, 10, 4, 15, 2, 11, 9, 6, 13, 10],
-              borderColor: 'rgba(33, 133, 213, 0.8)',
-              backgroundColor: 'rgba(33, 133, 213, 0.8)',
-            }
-          ]
-        })
-        
-      }, [])
+                label: 'Kecamatan',
+                data: sortData(sortedReportCounts).map(item => item.count),
+                borderColor: 'rgba(33, 133, 213, 0.8)',
+                backgroundColor: 'rgba(33, 133, 213, 0.8)',
+            },
+        ],
+    };
 
-  return (
-    <div className="mt-5  w-full h-auto overflow-auto rounded-lg shadow-lg ">
-          <Bar data={chartData} options={chartOptions}/>
-    </div>
-  )
-}
+    return (
+        <div>
+            {error ? (
+                <p>Error fetching data</p>
+            ) : (
+                <Bar data={data} />
+            )}
+        </div>
+    );
+};
 
-export default graph
+export default Graph;

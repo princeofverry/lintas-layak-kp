@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import axios from 'axios';
-import Image from 'next/image'; // Import Image from next/image
+import Image from 'next/image';
 import { Button } from '../ui/button';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -18,122 +18,113 @@ const Form = () => {
     const [showProcess, setShowProcess] = useState(false);
     const [uniqueCode, setUniqueCode] = useState('');
     const [report, setReport] = useState(null);
-    const [locationData, setLocationData] = useState({
-        lat: null,
-        lng: null,
-        address: '',
-        kelurahan: '',
-        kecamatan: ''
-    });
 
-    const handleLocationChange = (data) => {
-        setLocationData(data);
-    };
+    // Location state
+    const [latitude, setLatitude] = useState('');
+    const [longitude, setLongitude] = useState('');
+    const [address, setAddress] = useState('');
+    const [kelurahan, setKelurahan] = useState('');
+    const [kecamatan, setKecamatan] = useState('');
 
-    const onFileChange = (event) => {
+    const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
     };
 
-    const onFileUpload = async () => {
-        if (!selectedFile) {
-            toast.error('Harap masukkan laporan Anda');
-            return;
-        }
-
+    const handleFileUpload = async () => {
         const email = document.getElementById('email').value;
         const title = document.getElementById('judul-laporan').value;
         const content = document.getElementById('isi-laporan').value;
-        const address = document.getElementById('alamat-laporan').value;
-
+    
         const formData = new FormData();
         formData.append('image', selectedFile);
         formData.append('email', email);
         formData.append('title', title);
         formData.append('content', content);
         formData.append('address', address);
-        formData.append('kelurahan', locationData.kelurahan);  // Tambahkan kelurahan
-        formData.append('kecamatan', locationData.kecamatan);  // Tambahkan kecamatan
-        formData.append('latitude', locationData.lat);         // Tambahkan latitude
-        formData.append('longitude', locationData.lng);        // Tambahkan longitude
-
-
+        formData.append('kelurahan', kelurahan);
+        formData.append('kecamatan', kecamatan);
+        formData.append('latitude', latitude);
+        formData.append('longitude', longitude);
+    
         try {
-            // Mengirim ke endpoint /detect
+            // Send to /detect endpoint
             const detectResponse = await axios.post('http://127.0.0.1:5000/detect', formData);
+            console.log('Detect Response:', detectResponse.data);
             const { detections, num_potholes, image } = detectResponse.data;
             setDetections(detections);
             setNumPotholes(num_potholes);
-
-            // Convert the hex string back to a blob
+    
+            // Convert hex string to a Blob
             const byteArray = new Uint8Array(image.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
             const blob = new Blob([byteArray], { type: 'image/png' });
             const imageObjectURL = URL.createObjectURL(blob);
             setImageSrc(imageObjectURL);
-
-            // Prepare the form data for report
+    
+            // Prepare and send form data for report
             const reportFormData = new FormData();
-            reportFormData.append('image', blob, 'detection_image.png'); // Menambahkan gambar yang sudah diproses
+            reportFormData.append('image', blob, 'detection_image.png');
             reportFormData.append('email', email);
             reportFormData.append('title', title);
             reportFormData.append('content', content);
             reportFormData.append('address', address);
-
-            // Mengirim ke endpoint /api/report
+            reportFormData.append('kelurahan', kelurahan);
+            reportFormData.append('kecamatan', kecamatan);
+            reportFormData.append('latitude', latitude);
+            reportFormData.append('longitude', longitude);
+            reportFormData.append('lubang', numPotholes);
+    
+            // Send to /api/report endpoint
             const reportResponse = await axios.post(
                 'http://localhost:5000/api/report',
                 reportFormData,
-                {
-                    headers: { 'Content-Type': 'multipart/form-data' },
-                    withCredentials: true // Sertakan cookies
-                }
+                { headers: { 'Content-Type': 'multipart/form-data' }, withCredentials: true }
             );
-
+    
+            console.log('Report Response:', reportResponse.data); 
             const { uniqueCode } = reportResponse.data;
             toast.success('Laporan Anda Berhasil Dikirim. Informasi selanjutnya terkait detail laporan telah dikirim melalui Email Anda.');
-
-            // Me-reload halaman setelah 3 detik
-            setTimeout(() => {
-                window.location.reload();
-            }, 3000);
-
+    
+            // Reload the page after 3 seconds
+            setTimeout(() => window.location.reload(), 3000);
+    
         } catch (error) {
             console.error("Error uploading the file", error.response ? error.response.data : error.message);
-
-            // Jika endpoint /detect gagal, kirim gambar mentah
+            toast.error("Error uploading the file. Please try again.");
+    
+            // If /detect endpoint fails, send raw image
             try {
                 const rawReportFormData = new FormData();
-                rawReportFormData.append('image', selectedFile); // Menggunakan gambar yang dipilih sebelumnya
+                rawReportFormData.append('image', selectedFile);
                 rawReportFormData.append('email', email);
                 rawReportFormData.append('title', title);
                 rawReportFormData.append('content', content);
                 rawReportFormData.append('address', address);
-
+                rawReportFormData.append('kelurahan', kelurahan);
+                rawReportFormData.append('kecamatan', kecamatan);
+                rawReportFormData.append('latitude', latitude);
+                rawReportFormData.append('longitude', longitude);
+                rawReportFormData.append('lubang', numPotholes); 
+    
                 const rawReportResponse = await axios.post(
                     'http://localhost:5000/api/report',
                     rawReportFormData,
-                    {
-                        headers: { 'Content-Type': 'multipart/form-data' },
-                        withCredentials: true // Sertakan cookies
-                    }
+                    { headers: { 'Content-Type': 'multipart/form-data' }, withCredentials: true }
                 );
-
+    
+                console.log('Raw Report Response:', rawReportResponse.data); 
                 const { uniqueCode } = rawReportResponse.data;
                 toast.success('Laporan Anda Berhasil Dikirim. Informasi selanjutnya terkait detail laporan telah dikirim melalui Email Anda.');
-
-                // Me-reload halaman setelah 3 detik
-                setTimeout(() => {
-                    window.location.reload();
-                }, 3000);
-
+                setTimeout(() => window.location.reload(), 3000);
+    
             } catch (reportError) {
                 console.error("Error sending raw image", reportError.response ? reportError.response.data : reportError.message);
                 toast.error("Error sending the file. Please try again.");
             }
         }
     };
+    
 
-
-    const onCheckStatus = async () => {
+    const handleCheckStatus = async () => {
         if (!uniqueCode) {
             toast.error('Harap masukkan nomor laporan Anda!!');
             return;
@@ -145,28 +136,18 @@ const Form = () => {
                 { withCredentials: true }
             );
             setReport(response.data);
+            setShowProcess(true);
         } catch (error) {
-            console.error(
-                'Error saat memeriksa status laporan',
-                error.response ? error.response.data : error.message
-            );
+            console.error('Error checking report status', error.response ? error.response.data : error.message);
             toast.error('Error while checking report status!');
         }
-
-        setShowProcess(true);
     };
 
     const getStatusClass = (step) => {
-        if (report === null) {
-            return 'bg-[#3A4750]';
-        }
+        if (!report) return 'bg-[#3A4750]';
 
         const stages = ['Pemeriksaan', 'Survei Lapangan', 'Tindakan Perbaikan', 'Selesai'];
-        if (stages.indexOf(step) <= stages.indexOf(report.stage)) {
-            return 'bg-[#2185D5]';
-        }
-
-        return 'bg-gray-300';
+        return stages.indexOf(step) <= stages.indexOf(report.stage) ? 'bg-[#2185D5]' : 'bg-gray-300';
     };
 
     return (
@@ -195,7 +176,7 @@ const Form = () => {
                         />
                         <button
                             className="bg-[#2185D5] rounded px-3 py-2 hover:bg-[#0b69b7] text-white w-full"
-                            onClick={onCheckStatus}
+                            onClick={handleCheckStatus}
                         > Cek Status
                         </button>
                     </div>
@@ -283,24 +264,28 @@ const Form = () => {
                             id="isi-laporan"
                             placeholder="Isi Laporan"
                         />
-                        <input
-                            className="w-full shadow-lg appearance-none border rounded py-2 px-3 text-gray-700 leading-tight outline outline-2 mb-4 bg-[#f3f3f3]"
-                            id="alamat-laporan"
-                            type="text"
-                            placeholder="Alamat / Deskripsi Lokasi"
+                    <div className="mb-4">
+                        <FormWithMap
+                            onLocationChange={({ lat, lng, address, kelurahan, kecamatan }) => {
+                                setLatitude(lat);
+                                setLongitude(lng);
+                                setAddress(address);
+                                setKelurahan(kelurahan);
+                                setKecamatan(kecamatan);
+                            }}
                         />
-                        <FormWithMap onLocationChange={handleLocationChange} />
-                        <input
+                    </div>
+                    <input
                             className="w-full shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline outline outline-2 mb-4"
                             id="file"
                             type="file"
                             accept="image/*"
-                            onChange={onFileChange}
+                            onChange={handleFileChange}
                         />
                         <Button
                             variant="secondary"
                             className="bg-[#2185D5] px-16 text-bold text-white hover:bg-[#0b69b7] w-full py-2"
-                            onClick={onFileUpload}
+                            onClick={handleFileUpload}
                         >
                             KIRIM
                         </Button>

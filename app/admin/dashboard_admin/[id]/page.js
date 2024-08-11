@@ -17,7 +17,9 @@ const StorePage = ({ params }) => {
   const [responsible, setResponsible] = useState('');
   const [estimate, setEstimate] = useState('');
   const [numPotholes, setNumPotholes] = useState('');
+  const [notes, setNotes] = useState('');
   const router = useRouter();
+
   
 
   useEffect(() => {
@@ -34,6 +36,7 @@ const StorePage = ({ params }) => {
         setResponsible(data.responsible || '');
         setEstimate(data.estimate || '');
         setNumPotholes(data.num_potholes ? String(data.num_potholes) : '');
+        setNotes(data.notes || '');
       } catch (error) {
         console.error("Error fetching report:", error);
         router.push("/404");
@@ -47,9 +50,10 @@ const StorePage = ({ params }) => {
 
   useEffect(() => {
     if (report) {
-      console.log('File URL:', report.fileUrl); // Log the file URL for debugging
+      console.log('File URL:', report.fileUrl); 
     }
   }, [report]);
+  
 
   const handleUpdate = async () => {
     try {
@@ -65,7 +69,7 @@ const StorePage = ({ params }) => {
           action,
           responsible,
           estimate,
-          num_potholes: numPotholes,
+          notes,
         }),
       });
   
@@ -183,15 +187,14 @@ const StorePage = ({ params }) => {
                 <h3 className="text-base font-medium text-[#3A4750]">Koordinat Gps</h3>
                 <p className="text-sm font-normal text-[#3A4750]">Latitude : {report.latitude}</p>
                 <p className="text-sm font-normal text-[#3A4750]">Longitude : {report.longitude}</p>
-                <h3 className="text-base font-medium text-[#3A4750]">Jumlah Lubang</h3>
+                <h3 className="text-base font-medium text-[#3A4750]">Jumlah Lubang : {report.lubang}</h3>
+                <h3 className="text-base font-medium text-[#3A4750]">Catatan :</h3>
                 <input
                   type="text"
                   className="bg-transparent w-[420px] h-7 border-b border-[#3A475099] outline-none text-sm font-normal text-[#3A4750]"
-                  value={numPotholes}
-                  onChange={(e) => setNumPotholes(e.target.value)}
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
                 />
-                <h3 className="text-base font-medium text-[#3A4750]">Catatan Khusus</h3>
-                <p className="text-sm font-normal text-[#3A4750]">{report.notes}</p>
               </div>
             </div>
           </div>

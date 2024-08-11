@@ -17,6 +17,8 @@ const DashboardPage = () => {
   const [filterStatus, setFilterStatus] = useState("");
   const [filterDate, setFilterDate] = useState("");
   const [filterSort, setFilterSort] = useState("");
+  const [selectedSort, setSelectedSort] = useState("Semua");
+
   const router = useRouter();
 
   const fetchReports = async () => {
@@ -84,7 +86,7 @@ const DashboardPage = () => {
   const handleLogout = () => {
     localStorage.removeItem("name");
     localStorage.removeItem("email");
-    router.push("/"); // Redirect to landing page
+    router.push("/"); 
   };
 
   const reloadReports = () => {
@@ -93,15 +95,11 @@ const DashboardPage = () => {
 
   const filterReports = () => {
     let filteredReports = [...reports];
-
-    // Filter berdasarkan status
     if (filterStatus) {
       filteredReports = filteredReports.filter(
         (report) => report.status === filterStatus
       );
     }
-
-    // Filter berdasarkan tanggal
     if (filterDate) {
       const now = new Date();
       if (filterDate === "Hari Ini") {
@@ -121,8 +119,6 @@ const DashboardPage = () => {
         );
       }
     }
-
-    // Sortir berdasarkan tanggal
     if (filterSort) {
       filteredReports.sort((a, b) => {
         const dateA = new Date(a.createdAt);
@@ -135,6 +131,7 @@ const DashboardPage = () => {
   };
 
   const totalReport = reports.length;
+  const reviewedReports = reports.filter(report => report.status === "Dalam Proses" || report.status === "Selesai" || report.status === "Ditolak").length;
 
   return (
     <div className="flex flex-row w-screen bg-[#F3F3F3] h-screen">
@@ -208,7 +205,9 @@ const DashboardPage = () => {
           <div className="w-72 h-40 bg-[#2185D5] rounded-lg flex flex-row justify-stretch gap-5 px-5 items-center">
             <FolderCheck size={90} color="#F3F3F3" />
             <div className="flex flex-col">
-              <h2 className="font-bold text-[#F3F3F3] text-3xl">31</h2>
+              <h2 className="font-bold text-[#F3F3F3] text-3xl">
+              {reviewedReports}
+              </h2>
               <h3 className="font-light text-[#F3F3F3] text-lg">Diperiksa</h3>
             </div>
           </div>
@@ -219,6 +218,8 @@ const DashboardPage = () => {
           </h1>
           <select 
             className="rounded-sm outline outline-[#3A475099] bg-transparent w-28 text-sm font-light text-[#3A475099] px-1"
+            value={selectedSort}
+            onChange={(e) => setSelectedSort(e.target.value)}
           >
             <option value="" disabled hidden>
               Urutkan
@@ -228,7 +229,7 @@ const DashboardPage = () => {
             <option value="Terendah">Terendah</option>  
           </select>
         </div>
-        <Graph/>
+        <Graph sortOption={selectedSort} />
         <div className="flex flex-row mt-10 justify-between items-center">
           <h1 className="text-[#3A4750] text-2xl font-extrabold ml-4">
             Laporan Masuk
@@ -278,7 +279,7 @@ const DashboardPage = () => {
         </div>
         <div className="mt-5  max-w-6xl h-96 overflow-auto rounded-md no-scrollbar">
           <table className="w-full table-auto">
-            <thead className="bg-[#D8DADC] text-[#3A475099] h-10">
+          <thead className="bg-[#D8DADC] text-[#3A475099] h-10 sticky top-0">
               <tr className="text-center">
                 <th className="p-3 font-semibold">Status</th>
                 <th className="p-3 font-semibold">Judul Laporan</th>
