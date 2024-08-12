@@ -12,6 +12,8 @@ const Form = () => {
     const [detections, setDetections] = useState(null);
     const [imageSrc, setImageSrc] = useState(null);
     const [numPotholes, setNumPotholes] = useState(0);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [rejectionReason, setRejectionReason] = useState('');
     const [showDetails, setShowDetails] = useState(false);
     const [reportId, setReportId] = useState('');
     const [reportStatus, setReportStatus] = useState(null);
@@ -135,8 +137,17 @@ const Form = () => {
                 `http://localhost:5000/api/report/uniqueCode/${uniqueCode}`,
                 { withCredentials: true }
             );
-            setReport(response.data);
-            setShowProcess(true);
+
+            const reportData = response.data;
+
+            if (reportData.status === 'Ditolak') {
+                setRejectionReason(reportData.notes); // Asumsikan 'notes' berisi alasan penolakan
+                setIsModalOpen(true);
+                setReport(null);
+            } else {
+                setReport(reportData);
+                setShowProcess(true);
+            }
         } catch (error) {
             console.error('Error checking report status', error.response ? error.response.data : error.message);
             toast.error('Error while checking report status!');
@@ -149,6 +160,26 @@ const Form = () => {
         const stages = ['Pemeriksaan', 'Survei Lapangan', 'Tindakan Perbaikan', 'Selesai'];
         return stages.indexOf(step) <= stages.indexOf(report.stage) ? 'bg-[#2185D5]' : 'bg-gray-300';
     };
+
+    const Modal = ({ isOpen, onClose, reason }) => {
+        if (!isOpen) return null;
+
+        return (
+            <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
+                <div className="bg-white p-6 rounded shadow-lg max-w-sm w-full">
+                    <h2 className="text-lg font-bold mb-4">Laporan Ditolak</h2>
+                    <p>{reason}</p>
+                    <button
+                        onClick={onClose}
+                        className="mt-4 bg-[#2185D5] text-white px-4 py-2 rounded hover:bg-[#0b69b7]"
+                    >
+                        Tutup
+                    </button>
+                </div>
+            </div>
+        );
+    };
+
 
     return (
         <div id="form" className="flex flex-col items-center bg-[#f3f3f3]">
@@ -316,7 +347,10 @@ const Form = () => {
             <div className='text-center w-100 flex justify-center pt-16'>
                 <hr className="border-[#2185D5] w-[150px] border-[2px]" />
             </div>
+            {/* Modal for rejection reason */}
+            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} reason={rejectionReason} />
         </div>
+        
     );
 }
 
