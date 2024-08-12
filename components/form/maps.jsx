@@ -40,22 +40,26 @@ const FormWithMap = ({ onLocationChange }) => {
     const handleMapClick = async (lat, lng) => {
         setLocation({ lat, lng });
 
-        const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`);
-        const result = response.data;
-        setAddress(result.display_name);
+        try {
+            const response = await axios.get(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`);
+            const result = response.data;
+            const addressComponents = result.address;
 
-        const addressComponents = result.address;
-        const kelurahanComponent = addressComponents.suburb || addressComponents.village;
-        const kecamatanComponent = addressComponents.town || addressComponents.city;
+            console.log('Address Data:', addressComponents); // Log data to inspect structure
 
-        setKelurahan(kelurahanComponent || '');
-        setKecamatan(kecamatanComponent || '');
+            // Set kelurahan and kecamatan based on data
+            const kelurahanComponent = addressComponents.suburb || addressComponents.village || addressComponents.city_district ||'';
+            const kecamatanComponent = addressComponents.municipality || addressComponents.hamlet || addressComponents.city_district || addressComponents.town || addressComponents.city ||'';
 
-        onLocationChange({ lat, lng, address: result.display_name, kelurahan, kecamatan });
+            setAddress(result.display_name);
+            setKelurahan(kelurahanComponent || '');
+            setKecamatan(kecamatanComponent || '');
+
+            onLocationChange({ lat, lng, address: result.display_name, kelurahan: kelurahanComponent || '', kecamatan: kecamatanComponent || '' });
+        } catch (error) {
+            console.error("Error fetching address data:", error);
+        }
     };
-
-
-
 
     const MapClickHandler = () => {
         useMapEvents({

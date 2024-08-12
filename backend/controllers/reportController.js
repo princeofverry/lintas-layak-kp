@@ -1,11 +1,13 @@
 const path = require('path');
 const fs = require('fs');
 const nodemailer = require('nodemailer');
+const axios = require('axios');
+const FormData = require('form-data');
 const { generateUniqueCode } = require('../utils/generateUniqueCode');
 const Report = require('../models/Report');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
-// Configure Nodemailer
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -14,14 +16,30 @@ const transporter = nodemailer.createTransport({
     },
 });
 
+const detectPotholes = async (filePath) => {
+    const formData = new FormData();
+    formData.append('image', fs.createReadStream(filePath));
+    try {
+        const detectResponse = await axios.post('http://127.0.0.1:5000/detect', formData, {
+            headers: formData.getHeaders(),
+        });
+        return detectResponse.data;
+    } catch (error) {
+        throw error;
+    }
+};
+
 const handleReport = async (req, res) => {
     try {
-        const { email, title, content, address } = req.body;
+        const { email, title, content, address, kelurahan, kecamatan, latitude, longitude } = req.body;
         const file = req.file;
 
         if (!file) {
             return res.status(400).json({ message: 'File is required' });
         }
+
+        const detectionResult = await detectPotholes(file.path);
+        const lubang = detectionResult.num_potholes || 0;
 
         const uniqueCode = generateUniqueCode();
         const fileName = path.basename(file.path);
@@ -32,8 +50,13 @@ const handleReport = async (req, res) => {
             title,
             content,
             address,
+            kelurahan,
+            kecamatan,
+            latitude,
+            longitude,
             fileUrl,
             uniqueCode,
+            lubang,
         };
 
         const newReport = new Report(reportData);
@@ -50,6 +73,9 @@ const handleReport = async (req, res) => {
                 <p><strong>Judul Laporan:</strong> ${title}</p>
                 <p><strong>Isi Laporan:</strong> ${content}</p>
                 <p><strong>Alamat / Deskripsi Lokasi:</strong> ${address}</p>
+                <p><strong>Latitude:</strong> ${latitude}</p>
+                <p><strong>Longitude:</strong> ${longitude}</p>
+                <p><strong>Jumlah Lubang:</strong> ${lubang}</p>
                 <p><strong>Lampiran:</strong></p>
                 <img src="cid:reportImage" alt="Report Image" />
                 <p>Thank you for your submission.</p>
@@ -67,19 +93,23 @@ const handleReport = async (req, res) => {
 
         res.status(201).json({
             uniqueCode,
-            detections: [],
-            num_potholes: 0,
+            detections: detectionResult.detections || [],
+            lubang,
             image: fileUrl,
         });
     } catch (error) {
-        console.error('Error handling report:', error);
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ message: 'Internal server error', error: error.message });
     }
 };
 
 const updateReport = async (req, res) => {
     try {
         const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: 'Invalid ID format' });
+        }
+
         const {
             title,
             content,
@@ -90,14 +120,10 @@ const updateReport = async (req, res) => {
             action,
             responsible,
             estimate,
-            num_potholes
+            notes,
         } = req.body;
 
-        if (!id) {
-            return res.status(400).json({ message: 'ID is required' });
-        }
-
-        const updateFields = { title, content, address, status, stage, priority, action, responsible, estimate,num_potholes };
+        const updateFields = { title, content, address, status, stage, priority, action, responsible, estimate, notes };
         Object.keys(updateFields).forEach(key => updateFields[key] === undefined && delete updateFields[key]);
 
         const report = await Report.findByIdAndUpdate(id, updateFields, { new: true });
@@ -108,7 +134,7 @@ const updateReport = async (req, res) => {
 
         res.status(200).json(report);
     } catch (error) {
-        res.status(500).json({ message: 'Internal server error' });
+        res.status(500).json({ message: 'Internal server error', error: error.message });
     }
 };
 
@@ -137,6 +163,11 @@ const getReports = async (req, res) => {
 const getReportById = async (req, res) => {
     try {
         const { id } = req.params;
+
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: 'Invalid ID format' });
+        }
+
         const report = await Report.findById(id);
         if (!report) {
             return res.status(404).json({ message: "Report not found" });
@@ -160,6 +191,30 @@ const getReportByTitleAndEmail = async (req, res) => {
     }
 };
 
+const getReportCountByKecamatan = async (req, res) => {
+    try {
+        const reportCounts = await Report.aggregate([
+            {
+                $group: {
+                    _id: "$kecamatan",
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $project: {
+                    kecamatan: "$_id",
+                    count: 1,
+                    _id: 0
+                }
+            }
+        ]);
+
+        res.status(200).json(reportCounts);
+    } catch (error) {
+        res.status(500).json({ message: 'Internal server error', error: error.message });
+    }
+};
+
 module.exports = {
     handleReport,
     updateReport,
@@ -167,4 +222,5 @@ module.exports = {
     getReports,
     getReportById,
     getReportByTitleAndEmail,
+    getReportCountByKecamatan,
 };

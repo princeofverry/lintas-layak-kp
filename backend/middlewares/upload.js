@@ -4,29 +4,22 @@ const fs = require('fs');
 
 // Define storage configuration
 const storage = multer.diskStorage({
-  // Destination function
   destination: (req, file, cb) => {
-    // Define upload directory
     const uploadDir = path.join(__dirname, '../uploads');
     
-    // Check if directory exists, if not, create it
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
     
-    // Set the destination for file uploads
     cb(null, uploadDir);
   },
   
-  // Filename function
   filename: (req, file, cb) => {
-    // Generate a unique filename based on timestamp and original file name
     cb(null, `${Date.now()}-${file.originalname}`);
   },
 });
 
-// Create multer instance with storage configuration
-const upload = multer({ 
+const upload = multer({
   storage,
   // Uncomment and configure if needed
   // limits: {
