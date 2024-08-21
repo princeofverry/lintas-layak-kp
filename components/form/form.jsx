@@ -6,6 +6,7 @@ import { Button } from '../ui/button';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import FormWithMap from './maps';
+import { X } from 'lucide-react';
 
 const Form = () => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -141,7 +142,7 @@ const Form = () => {
             const reportData = response.data;
 
             if (reportData.status === 'Ditolak') {
-                setRejectionReason(reportData.notes); // Asumsikan 'notes' berisi alasan penolakan
+                setRejectionReason(reportData.notes); 
                 setIsModalOpen(true);
                 setReport(null);
             } else {
@@ -163,17 +164,22 @@ const Form = () => {
 
     const Modal = ({ isOpen, onClose, reason }) => {
         if (!isOpen) return null;
-
+    
         return (
             <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-50">
-                <div className="bg-white p-6 rounded shadow-lg max-w-sm w-full">
-                    <h2 className="text-lg font-bold mb-4">Laporan Ditolak</h2>
-                    <p>{reason}</p>
+                <div className="relative bg-white p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+                    <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
+                        <div className="bg-red-500 w-14 h-14 rounded-full flex items-center justify-center">
+                            <X size={28} color="white" />
+                        </div>
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-800 mb-2 mt-6">Laporan Ditolak</h2>
+                    <p className="text-gray-600 mb-4">{reason}</p>
                     <button
                         onClick={onClose}
-                        className="mt-4 bg-[#2185D5] text-white px-4 py-2 rounded hover:bg-[#0b69b7]"
+                        className="bg-[#2185D5] text-center rounded-full px-6 py-2 hover:bg-[#0b69b7] text-white font-bold w-full"
                     >
-                        Tutup
+                        OK
                     </button>
                 </div>
             </div>
