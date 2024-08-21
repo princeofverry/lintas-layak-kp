@@ -81,10 +81,7 @@ const StorePage = ({ params }) => {
   
       if (response.ok) {
         toast.success('Update berhasil!');
-        router.push(`/admin/dashboard_admin`);
-      } else {
-        const responseData = await response.json();
-        toast.error(`Update gagal: ${responseData.message || 'Unknown error'}`);
+        setTimeout(() => {router.push(`/admin/dashboard_admin`);}, 1500);
       }
     } catch (error) {
       console.error("Error updating report:", error);
