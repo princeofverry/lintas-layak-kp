@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, Clock, Info } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const StorePage = ({ params }) => {
   const { id } = params;
@@ -56,6 +58,10 @@ const StorePage = ({ params }) => {
   
 
   const handleUpdate = async () => {
+    if (!status || !stage || !priority || !action || !responsible || !estimate || !notes ) {
+      toast.error("Mohon lengkapi semua data sebelum melanjutkan!");
+      return;
+    }
     try {
       const response = await fetch(`http://localhost:5000/api/reports/${id}`, {
         method: 'PUT',
@@ -74,17 +80,15 @@ const StorePage = ({ params }) => {
       });
   
       if (response.ok) {
-        alert('Update successful');
-        router.push(`/admin/dashboard_admin`);
-      } else {
-        const responseData = await response.json();
-        alert(`Update failed: ${responseData.message || 'Unknown error'}`);
+        toast.success('Update berhasil!');
+        setTimeout(() => {router.push(`/admin/dashboard_admin`);}, 1500);
       }
     } catch (error) {
       console.error("Error updating report:", error);
-      alert('Update failed');
+      toast.error('Update gagal');
     }
   };
+  
   
   if (loading) {
     return <p>Loading...</p>;
@@ -95,7 +99,9 @@ const StorePage = ({ params }) => {
   }
 
   return (
+    
     <div className="w-screen h-screen bg-[#F3F3F3]">
+      <ToastContainer />
       <div className="flex flex-row">
         <div className="flex flex-row gap-3 px-7 py-5 h-20 w-screen items-center justify-between">
           <Button className="bg-transparent hover:bg-transparent">
